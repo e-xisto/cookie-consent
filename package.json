@@ -1,0 +1,33 @@
+{
+  "name": "@e-xisto/cookie-consent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx npm-run-all --serial prod:del prod:parcel",
+    "prod:del": "rimraf dist",
+    "prod:parcel": "parcel build ./src/cookie-consent.js --no-content-hash --no-source-maps",
+    "dev": "npx npm-run-all --parallel dev:*",
+    "dev:parcel": "parcel ./src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://e-xisto@github.com/e-xisto/cookie-consent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/e-xisto/cookie-consent/issues"
+  },
+  "homepage": "https://github.com/e-xisto/cookie-consent#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "locales": "0.0.2",
+    "texts": "^0.8.0"
+  }
+}
