@@ -10,22 +10,23 @@ import en from './locales/en.js'
 		trackingCookies = 'trackingCookies';
 		targetingCookies = 'targetingCookies';
 
-		cookies = {};
+		categories = {};
+		cookies = null;
 
 		options = {
 			text: en,
 			color: { //TODO default colors
-				textColor: "",
+				textColor: "black",
 				linkColor: "",
-				modalBackground: "",
-				modalBorder: "",
-				btnPrimaryText: "",
-				btnPrimaryBackground: "",
-				btnSecondaryText: "",
-				btnSecondaryBackground: "",
-				switchColor: ""
+				modalBackground: "grey",
+				modalBorder: "black",
+				btnPrimaryText: "black",
+				btnPrimaryBackground: "green",
+				btnSecondaryText: "black",
+				btnSecondaryBackground: "white",
+				switchColor: "green"
 			},
-			cookiesPolicylink: "",
+			cookiesPolicyLink: "",
 			locale: 'en'
 		};
 
@@ -42,11 +43,12 @@ import en from './locales/en.js'
 			this.initCookieIndex(this.trackingCookies);
 			this.initCookieIndex(this.targetingCookies);
 
-			this.cookies[this.strictlyNecessaryCookies].mandatory = true;
+			this.categories[this.strictlyNecessaryCookies].mandatory = true;
 		}
 
+
 		initCookieIndex(cookieName) {
-			this.cookies[cookieName] = {
+			this.categories[cookieName] = {
 				name: cookieName,
 				event: new CustomEvent(cookieName, {}),
 				checkboxId: 'cookies-' + cookieName + '-checkbox',
@@ -56,10 +58,11 @@ import en from './locales/en.js'
 
 		config(options) {
 			this.setOptions(options);
-			if (!this.getCookie(this.strictlyNecessaryCookies)) {
+			if (!this.checkCookie(this.strictlyNecessaryCookies)) {
 				this.openPopup();
 			}
 		}
+
 
 		setOptions(options) {
 
@@ -82,32 +85,52 @@ import en from './locales/en.js'
 
 		checkCookie(category, callback) {
 
-			if (this.getCookie(category)) callback();
-			else document.addEventListener(category, callback);
+			if (!this.cookies) {
+				let string = this.getCookie('cookie_consent');
+				if (!string && win.localStorage) string = win.localStorage.getItem('cookie_consent');
+
+				if (string) this.cookies = JSON.parse(string);
+				else this.cookies = null;
+			}
+
+			if (this.cookies && this.cookies[category]) {
+				if (callback) callback();
+				return true;
+			} else document.addEventListener(category, callback);
+			return false;
 		}
 
+		acceptCookies(cookies) {
 
-		acceptCookie(category) {
-			this.setCookie(category, 1);
-			if (this.cookies[category]) document.dispatchEvent(this.cookies[category].event);
+			let stringify = JSON.stringify(cookies);
+
+			this.setCookie('cookie_consent', stringify);
+			if (win.localStorage) win.localStorage.setItem('cookie_consent', stringify);
+
+			for (let category in cookies) {
+				if (cookies[category] && this.categories[category]) document.dispatchEvent(this.categories[category].event);
+			}
 		}
 
 
 		acceptAll() {
-
-			for (let category in this.cookies) {
-				this.acceptCookie(category);
+			this.cookies = {};
+			for (let category in this.categories) {
+				this.cookies[category] = 1;
 			}
+			this.acceptCookies(this.cookies);
 			this.closePopup();
 		}
 
 
 		acceptSelection() {
 
-			for (let category in this.cookies) {
-				if (this.cookies[category].mandatory || document.getElementById(this.cookies[category].checkboxId).checked)
-					this.acceptCookie(category);
+			this.cookies = {};
+			for (let category in this.categories) {
+				if (this.categories[category].mandatory || document.getElementById(this.categories[category].checkboxId).checked)
+					this.cookies[category] = 1;
 			}
+			this.acceptCookies(this.cookies);
 			this.closePopup();
 		}
 
@@ -146,14 +169,24 @@ import en from './locales/en.js'
 			}
 		}
 
+
+		replace(text, data) {
+			for(let i in data) {
+				var regex = new RegExp('{{' + i + '}}', 'g');
+				text = text.replace(regex, data[i]);
+			}
+			return text;
+		}
+
+
 		render() {
 			var options = this.options;
 			return /*html*/ `
-				<div id="cookie-popup-cookies">
+				<div id="cookie-popup-cookies" style="color: ${options.color.textColor}; background-color: ${options.color.modalBackground}; border: 1px solid ${options.color.modalBorder};">
 					<h3>${options.text.modalTitle}</h3>
-					<p>${options.text.noticeText}</p>
-					<button type="button" id="btn-cookie-manage-cookies" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
-					<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+					<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
+					<button type="button" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
+					<button type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 					<div id="cookie-manage-cookies" style="display: none;">
 						<div id="cookie-privacy">
 							<h4 id="cookie-privacy-title">${options.text.privacyTitle}</h4>
@@ -161,28 +194,28 @@ import en from './locales/en.js'
 							<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
 						</div>
 						<div id="cookie-strictly-necessary">
-							<input type="checkbox" id="${this.cookies[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
 							<h4 id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</h4>
 							<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
 						</div>
 						<div id="cookie-functionality">
-							<input type="checkbox" id="${this.cookies[this.functionalityCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}"/>
 							<h4 id="cookie-functionality-title">${options.text.functionalityTitle}</h4>
 							<p id="cookie-functionality-text">${options.text.functionalityText}</p>
 						</div>
 						<div id="cookie-tracking">
-							<input type="checkbox" id="${this.cookies[this.trackingCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}"/>
 							<h4 id="cookie-tracking-title">${options.text.trackingTitle}</h4>
 							<p id="cookie-tracking-text">${options.text.trackingText}</p>
 						</div>
 						<div id="cookie-targeting">
-							<input type="checkbox" id="${this.cookies[this.targetingCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}"/>
 							<h4 id="cookie-targeting-title">${options.text.targetingTitle}</h4>
 							<p id="cookie-targeting-text">${options.text.targetingText}</p>
 						</div>
 
-						<button type="button" id="btn-cookie-accept-selection" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
-						<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+						<button type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
+						<button type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 					</div>
 				</div>
 			`;

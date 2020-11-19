@@ -3,9 +3,19 @@
 
 //TODO documentation
 
+```html
+
+<script src="cookie-consent.js"></script>
+<script>
+	CookieConsent.config({});
+</script>
 
 ```
-{
+
+
+
+```js
+let config = {
 	text: {
 		modalTitle: "",
 		noticeText: "", // {{cookiesPolicyLink}}
@@ -35,7 +45,7 @@
 		btnSecondaryBackground: "",
 		switchColor: ""
 	},
-	cookiesPolicylink:"",
+	cookiesPolicyLink:"",
 	locale: ""
 }
 
