@@ -1,20 +1,20 @@
+import en from './locales/en.js'
+
 (function (win) {
+
 
 	class CookieConsent {
 
 		strictlyNecessaryCookies = 'strictlyNecessaryCookies';
-		strictlyNecessaryCookiesEvent = new CustomEvent(this.strictlyNecessaryCookies, {});
 		functionalityCookies = 'functionalityCookies';
-		functionalityCookiesEvent = new CustomEvent(this.functionalityCookies, {});
 		trackingCookies = 'trackingCookies';
-		trackingCookiesEvent = new CustomEvent(this.trackingCookies, {});
 		targetingCookies = 'targetingCookies';
-		targetingCookiesEvent = new CustomEvent(this.targetingCookies, {});
 
-		cookieEvents = {};
+		cookies = {};
+
 		options = {
-			text: require('./locales/en.js'),
-			color: {
+			text: en,
+			color: { //TODO default colors
 				textColor: "",
 				linkColor: "",
 				modalBackground: "",
@@ -25,45 +25,60 @@
 				btnSecondaryBackground: "",
 				switchColor: ""
 			},
-			cookiesPolicylink:"",
+			cookiesPolicylink: "",
 			locale: 'en'
 		};
 
 		locales = {
-			en: require('./locales/en.js'),
+			en: en,
 		}
+
+		manageCookiesShown = false;
 
 		constructor () {
 
-			this.cookieEvents[this.strictlyNecessaryCookies] = this.strictlyNecessaryCookiesEvent;
-			this.cookieEvents[this.functionalityCookies] = this.functionalityCookiesEvent;
-			this.cookieEvents[this.trackingCookies] = this.trackingCookiesEvent;
-			this.cookieEvents[this.targetingCookies] = this.targetingCookiesEvent;
+			this.initCookieIndex(this.strictlyNecessaryCookies);
+			this.initCookieIndex(this.functionalityCookies);
+			this.initCookieIndex(this.trackingCookies);
+			this.initCookieIndex(this.targetingCookies);
+
+			this.cookies[this.strictlyNecessaryCookies].mandatory = true;
+		}
+
+		initCookieIndex(cookieName) {
+			this.cookies[cookieName] = {
+				name: cookieName,
+				event: new CustomEvent(cookieName, {}),
+				checkboxId: 'cookies-' + cookieName + '-checkbox',
+			};
 		}
 
 
 		config(options) {
 			this.setOptions(options);
 			if (!this.getCookie(this.strictlyNecessaryCookies)) {
-				this.popup();
+				this.openPopup();
 			}
 		}
 
 		setOptions(options) {
 
-			if (options.locale && locales[options.locale]) this.text = locales[options.locale];
-			for (var text in options.text) {
-				this.options.text[text] = options.text[text];
+			if (options.locale && locales[options.locale]) this.options.text = locales[options.locale];
+			for (var i in options.text) {
+				this.options.text[i] = options.text[i];
 			}
 		}
 
 
-		popup() {
+		openPopup() {
 			document.addEventListener("DOMContentLoaded", (event) => {
 				document.body.insertAdjacentHTML('beforeend', this.render());
 			});
 		}
 
+		closePopup() {
+			document.getElementById('cookie-popup-cookies').remove();
+		}
 
 		checkCookie(category, callback) {
 
@@ -74,9 +89,27 @@
 
 		acceptCookie(category) {
 			this.setCookie(category, 1);
-			if (this.cookieEvents[category]) document.dispatchEvent(this.cookieEvents[category]);
+			if (this.cookies[category]) document.dispatchEvent(this.cookies[category].event);
 		}
 
+
+		acceptAll() {
+
+			for (let category in this.cookies) {
+				this.acceptCookie(category);
+			}
+			this.closePopup();
+		}
+
+
+		acceptSelection() {
+
+			for (let category in this.cookies) {
+				if (this.cookies[category].mandatory || document.getElementById(this.cookies[category].checkboxId).checked)
+					this.acceptCookie(category);
+			}
+			this.closePopup();
+		}
 
 		setCookie(name, value, days) {
 			var expires = "";
@@ -103,45 +136,54 @@
 		}
 
 
+		manageCookies() {
+			if (this.manageCookiesShown) {
+				document.getElementById('cookie-manage-cookies').style.display = 'none';
+				this.manageCookiesShown = false;
+			} else {
+				document.getElementById('cookie-manage-cookies').style.display = 'block';
+				this.manageCookiesShown = true;
+			}
+		}
+
 		render() {
 			var options = this.options;
-			console.log(options);
 			return /*html*/ `
 				<div id="cookie-popup-cookies">
-					<h3>${options.modalTitle}</h3>
-					<p>${options.noticeText}</p>
-					<button type="button" id="btn-cookie-manage-cookies" onclick="CookieConsent.manageCookies()">${options.btnManageCookies}</button>
-					<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.btnAcceptAll}</button>
-				</div>
-				<div id="cookie-manage-cookies" style="display: none;">
-					<div id="cookie-privacy">
-						<h4 id="cookie-privacy-title">${options.privacyTitle}</h4>
-						<p id="cookie-privacy-text-definition">${options.privacyTextDefinition}</p>
-						<p id="cookie-privacy-text-instructions">${options.privacyTextInstructions}</p>
-					</div>
-					<div id="cookie-strictly-necessary">
-						<input type="checkbox" id="cookie-strictly-necessary-title"/>
-						<h4 id="cookie-strictly-necessary-title">${options.strictlyNecessaryTitle}</h4>
-						<p id="cookie-strictly-necessary-text">${options.strictlyNecessaryText}</p>
-					</div>
-					<div id="cookie-functionality">
-						<input type="checkbox" id="cookie-functionality-title"/>
-						<h4 id="cookie-functionality-title">${options.functionalityTitle}</h4>
-						<p id="cookie-functionality-text">${options.functionalityText}</p>
-					</div>
-					<div id="cookie-tracking">
-						<input type="checkbox" id="cookie-tracking-title"/>
-						<h4 id="cookie-tracking-title">${options.trackingTitle}</h4>
-						<p id="cookie-tracking-text">${options.trackingText}</p>
-					</div>
-					<div id="cookie-targeting">
-						<input type="checkbox" id="cookie-targeting-title"/>
-						<h4 id="cookie-targeting-title">${options.targetingTitle}</h4>
-						<p id="cookie-targeting-text">${options.targetingText}</p>
-					</div>
+					<h3>${options.text.modalTitle}</h3>
+					<p>${options.text.noticeText}</p>
+					<button type="button" id="btn-cookie-manage-cookies" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
+					<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+					<div id="cookie-manage-cookies" style="display: none;">
+						<div id="cookie-privacy">
+							<h4 id="cookie-privacy-title">${options.text.privacyTitle}</h4>
+							<p id="cookie-privacy-text-definition">${options.text.privacyTextDefinition}</p>
+							<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
+						</div>
+						<div id="cookie-strictly-necessary">
+							<input type="checkbox" id="${this.cookies[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
+							<h4 id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</h4>
+							<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
+						</div>
+						<div id="cookie-functionality">
+							<input type="checkbox" id="${this.cookies[this.functionalityCookies].checkboxId}"/>
+							<h4 id="cookie-functionality-title">${options.text.functionalityTitle}</h4>
+							<p id="cookie-functionality-text">${options.text.functionalityText}</p>
+						</div>
+						<div id="cookie-tracking">
+							<input type="checkbox" id="${this.cookies[this.trackingCookies].checkboxId}"/>
+							<h4 id="cookie-tracking-title">${options.text.trackingTitle}</h4>
+							<p id="cookie-tracking-text">${options.text.trackingText}</p>
+						</div>
+						<div id="cookie-targeting">
+							<input type="checkbox" id="${this.cookies[this.targetingCookies].checkboxId}"/>
+							<h4 id="cookie-targeting-title">${options.text.targetingTitle}</h4>
+							<p id="cookie-targeting-text">${options.text.targetingText}</p>
+						</div>
 
-					<button type="button" id="btn-cookie-accept-selection" onclick="CookieConsent.acceptSelection()" style="display:none;">${options.btnAcceptAll}</button>
-					<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.btnAcceptAll}</button>
+						<button type="button" id="btn-cookie-accept-selection" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
+						<button type="button" id="btn-cookie-accept-all" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+					</div>
 				</div>
 			`;
 		}
