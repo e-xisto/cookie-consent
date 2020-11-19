@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Open popup after loading event
 - Temprary default colors (TODO set some nicer colors)
 - Default english noticeText, added a mention to cookie policy page with link
 - Colors added

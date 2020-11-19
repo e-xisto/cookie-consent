@@ -59,8 +59,8 @@ import en from './locales/en.js'
 		config(options) {
 			this.setOptions(options);
 			if (!this.checkCookie(this.strictlyNecessaryCookies)) {
-				this.openPopup();
 			}
+				this.openPopup();
 		}
 
 
@@ -74,9 +74,14 @@ import en from './locales/en.js'
 
 
 		openPopup() {
-			document.addEventListener("DOMContentLoaded", (event) => {
+
+			if (document.readyState !== 'loading') {
 				document.body.insertAdjacentHTML('beforeend', this.render());
-			});
+			} else {
+				document.addEventListener("DOMContentLoaded", (event) => {
+					document.body.insertAdjacentHTML('beforeend', this.render());
+				});
+			}
 		}
 
 		closePopup() {
