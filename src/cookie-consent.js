@@ -1,4 +1,4 @@
-import en from './locales/en.js'
+import locales from './locales.js'
 
 (function (win) {
 
@@ -14,7 +14,7 @@ import en from './locales/en.js'
 		cookies = null;
 
 		options = {
-			text: en,
+			text: locales.en,
 			color: { //TODO default colors
 				textColor: "black",
 				linkColor: "",
@@ -29,10 +29,6 @@ import en from './locales/en.js'
 			cookiesPolicyLink: "",
 			locale: 'en'
 		};
-
-		locales = {
-			en: en,
-		}
 
 		manageCookiesShown = false;
 
@@ -59,8 +55,8 @@ import en from './locales/en.js'
 		config(options) {
 			this.setOptions(options);
 			if (!this.checkCookie(this.strictlyNecessaryCookies)) {
-			}
 				this.openPopup();
+			}
 		}
 
 
@@ -74,13 +70,15 @@ import en from './locales/en.js'
 
 
 		openPopup() {
-
-			if (document.readyState !== 'loading') {
-				document.body.insertAdjacentHTML('beforeend', this.render());
-			} else {
-				document.addEventListener("DOMContentLoaded", (event) => {
+			this.loadCookies();
+			if (!document.getElementById('cookie-popup-cookies')) {
+				if (document.readyState !== 'loading') {
 					document.body.insertAdjacentHTML('beforeend', this.render());
-				});
+				} else {
+					document.addEventListener("DOMContentLoaded", (event) => {
+						document.body.insertAdjacentHTML('beforeend', this.render());
+					});
+				}
 			}
 		}
 
@@ -91,11 +89,7 @@ import en from './locales/en.js'
 		checkCookie(category, callback) {
 
 			if (!this.cookies) {
-				let string = this.getCookie('cookie_consent');
-				if (!string && win.localStorage) string = win.localStorage.getItem('cookie_consent');
-
-				if (string) this.cookies = JSON.parse(string);
-				else this.cookies = null;
+				this.loadCookies();
 			}
 
 			if (this.cookies && this.cookies[category]) {
@@ -103,6 +97,17 @@ import en from './locales/en.js'
 				return true;
 			} else document.addEventListener(category, callback);
 			return false;
+		}
+
+		loadCookies() {
+			let string = this.getCookie('cookie_consent');
+			if (win.localStorage) {
+				if (!win.localStorage.getItem('cookie_consent') && string) win.localStorage.setItem('cookie_consent', string);
+				if (!string) string = win.localStorage.getItem('cookie_consent');
+			}
+
+			if (string) this.cookies = JSON.parse(string);
+			else this.cookies = null;
 		}
 
 		acceptCookies(cookies) {
@@ -121,7 +126,7 @@ import en from './locales/en.js'
 		acceptAll() {
 			this.cookies = {};
 			for (let category in this.categories) {
-				this.cookies[category] = 1;
+				this.cookies[category] = true;
 			}
 			this.acceptCookies(this.cookies);
 			this.closePopup();
@@ -133,7 +138,7 @@ import en from './locales/en.js'
 			this.cookies = {};
 			for (let category in this.categories) {
 				if (this.categories[category].mandatory || document.getElementById(this.categories[category].checkboxId).checked)
-					this.cookies[category] = 1;
+					this.cookies[category] = true;
 			}
 			this.acceptCookies(this.cookies);
 			this.closePopup();
@@ -204,17 +209,17 @@ import en from './locales/en.js'
 							<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
 						</div>
 						<div id="cookie-functionality">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
 							<h4 id="cookie-functionality-title">${options.text.functionalityTitle}</h4>
 							<p id="cookie-functionality-text">${options.text.functionalityText}</p>
 						</div>
 						<div id="cookie-tracking">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
 							<h4 id="cookie-tracking-title">${options.text.trackingTitle}</h4>
 							<p id="cookie-tracking-text">${options.text.trackingText}</p>
 						</div>
 						<div id="cookie-targeting">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}"/>
+							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
 							<h4 id="cookie-targeting-title">${options.text.targetingTitle}</h4>
 							<p id="cookie-targeting-text">${options.text.targetingText}</p>
 						</div>
