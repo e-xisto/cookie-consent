@@ -107,7 +107,7 @@ import locales from './locales.js'
 			}
 
 			if (string) this.cookies = JSON.parse(string);
-			else this.cookies = null;
+			else this.cookies = {};
 		}
 
 		acceptCookies(cookies) {
