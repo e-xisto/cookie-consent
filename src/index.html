@@ -14,13 +14,13 @@
 			.container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media (min-width:768px){.container{width:750px}}@media (min-width:992px){.container{width:970px}}@media (min-width:1200px){.container{width:1170px}}
 
 			.cookie-consent {
-				background-color: rgba(0, 0, 0, 0.7);
+				/* background-color: rgba(0, 0, 0, 0.7); */
 				position: fixed;
 				top: 0;
 				left: 0;
 				width: 100vw;
 				height: 100vh;
-				font-family: 'Lato', sans-serif
+				font-family: 'Lato', sans-serif;
 			}
 
 			.cookie-consent-modal {
@@ -31,7 +31,7 @@
 				top: 50%;
 				transform: translate(-50%, -50%);
 				max-height: calc(900px - 192px);
-				overflow-y: scroll
+				overflow-y: scroll;
 			}
 
 			.cookie-consent-intro {
@@ -42,7 +42,6 @@
 				font-size: 22px;
 				margin-top: 0;
 				margin-bottom: 16px;
-				color: #145f95;
 			}
 
 			.cookie-consent-modal p {
@@ -50,12 +49,10 @@
 			}
 
 			.cookie-consent-modal a {
-				color: #145f95;
 				text-decoration: none;
 			}
 
 			.cookie-consent-btn {
-				box-shadow:rgba(0, 0, 0, 0.1) 0px -2px 4px 0px;
 				display: flex;
 				justify-content: center;
 				padding-top: 15px;
@@ -64,9 +61,7 @@
 
 			.cookie-consent-btn button {
 				padding: 12px 20px;
-				border: 1px solid #145f95;
 				font-size: 14px;
-				text-transform: uppercase;
 				border-radius: 4px;
 				cursor: pointer;
 			}
@@ -77,13 +72,11 @@
 
 			.cookie-consent-btn-manage {
 				margin-right: 30px;
-				background: #fff;
-				color: #145f95;
 			}
 
 			.cookie-consent-btn-accept {
-				background: #145f95;
 				color: #fff;
+				text-transform: uppercase;
 			}
 
 			.cookie-consent-allcookies {
@@ -93,16 +86,6 @@
 			.cookie-consent-options {
 				padding: 0 25px;
 				height: 400px;
-				overflow-y: scroll;
-			}
-
-			.cookie-consent-options::-webkit-scrollbar {
-				background: #ccc;
-				width: 10px;
-			}
-
-			.cookie-consent-options::-webkit-scrollbar-thumb {
-				background-color: #145f95;
 			}
 
 			.cookie-consent-options-item {
@@ -122,7 +105,6 @@
 			.right label {
 				font-size: 20px;
 				font-weight: bold;
-				color: #145f95;
 			}
 
 			.cookie-consent-switch {
@@ -162,7 +144,6 @@
 			}
 
 			input:checked + .cookie-consent-switch-slider {
-  				background-color: #145f95;
 			}
 
 			input:checked + .cookie-consent-switch-slider:before {
@@ -265,620 +246,12 @@
 					cookiesPolicyLink:"",
 					locale: ""
 				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-			</code>
-			<br>
-			<br>
+
 			<button type="button" onclick="CookieConsent.openPopup()">Open popup</button>
 
 
 
 		</div>
 
-		<div class="cookie-consent">
-			<div class="cookie-consent-modal">
-				<div class="cookie-consent-intro">
-
-					<h3>Valoramos su privacidad</h3>
-					<p>
-						Nosotros y nuestros socios almacenamos o accedemos a información en un dispositivo, tales como cookies, y procesamos
-						datos personales, tales como identificadores únicos e información estándar enviada por un dispositivo, para anuncios y
-						contenido personalizados, medición de anuncios y del contenido e información sobre el público, así como para
-						desarrollar y mejorar productos.
-					</p>
-					<p>
-						Con su permiso, nosotros y nuestros socios podemos utilizar datos de localización geográfica precisa e identificación
-						mediante las características de dispositivos. Puede hacer clic para otorgarnos su consentimiento a nosotros y a
-						nuestros socios para que llevemos a cabo el procesamiento previamente descrito. De forma alternativa, puede hacer clic
-						para denegar su consentimiento o acceder a información más detallada y cambiar sus preferencias antes de otorgar su
-						consentimiento. Tenga en cuenta que algún procesamiento de sus datos personales puede no requerir de su consentimiento,
-						pero usted tiene el derecho de rechazar tal procesamiento. Sus preferencias se aplicarán solo a este sitio web. Puede
-						cambiar sus preferencias en cualquier momento entrando de nuevo en este sitio web o visitando nuestra <a href="javascript: void(0)">política de
-							privacidad.</a>
-					</p>
-				</div>
-				<div class="cookie-consent-btn">
-					<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-manage-cookies" onclick="CookieConsent.manageCookies()">Preferencia de cookies</button>
-					<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-cookies" onclick="CookieConsent.acceptAll()">Aceptar todas las cookies</button>
-				</div>
-
-				<div class="cookie-consent-show-allcookies" id="cookie-manage-cookies" style="display: none">
-					<div class="cookie-consent-allcookies">
-						<h3>We use cookies</h3>
-						<p>
-							Nosotros y nuestros socios almacenamos o accedemos a información en dispositivos, tales como cookies, y procesamos
-							datos personales, tales como identificadores únicos e información estándar enviada por un dispositivo, para los
-							propósitos descritos a continuación. Puede hacer clic para otorgarnos su consentimiento a nosotros y a nuestros socios
-							para que llevemos a cabo el procesamiento con dichos propósitos. De forma alternativa, puede hacer clic para denegar su
-							consentimiento o acceder a información más detallada y cambiar sus preferencias antes de otorgar su consentimiento. Sus
-							preferencias se aplicarán solo a este sitio web. Tenga en cuenta que algún procesamiento de sus datos personales puede
-							no requerir de su consentimiento, pero usted tiene el derecho de rechazar tal procesamiento. Puede cambiar sus
-							preferencias en cualquier momento entrando de nuevo en este sitio web o visitando nuestra política de privacidad.
-						</p>
-					</div>
-
-					<div class="cookie-consent-options">
-
-						<div class="cookie-consent-options-item">
-							<div class="left">
-								<label class="cookie-consent-switch">
-									<input type="checkbox" checked disabled>
-									<span class="cookie-consent-switch-slider round"></span>
-								</label>
-							</div>
-							<div class="right">
-								<label for="">Strictly necessary cookies</label>
-								<p>
-									These cookies are essential to provide you with services available through our website and to enable you to use certain
-									features of our website. Without these cookies, we cannot provide you certain services on our website.
-								</p>
-							</div>
-						</div>
-
-						<div class="cookie-consent-options-item">
-							<div class="left">
-								<label class="cookie-consent-switch">
-									<input type="checkbox">
-									<span class="cookie-consent-switch-slider round"></span>
-								</label>
-							</div>
-							<div class="right">
-								<label for="">Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies</label>
-								<p>
-									These cookies are essential to provide you with services available through our website and to enable you to use certain
-									features of our website. Without these cookies, we cannot provide you certain services on our website.
-								</p>
-							</div>
-						</div>
-
-						<div class="cookie-consent-options-item">
-							<div class="left">
-								<label class="cookie-consent-switch">
-									<input type="checkbox">
-									<span class="cookie-consent-switch-slider round"></span>
-								</label>
-							</div>
-							<div class="right">
-								<label for="">Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies</label>
-								<p>
-									These cookies are essential to provide you with services available through our website and to enable you to use certain
-									features of our website. Without these cookies, we cannot provide you certain services on our website.
-								</p>
-							</div>
-						</div>
-
-						<div class="cookie-consent-options-item">
-							<div class="left">
-								<label class="cookie-consent-switch">
-									<input type="checkbox">
-									<span class="cookie-consent-switch-slider round"></span>
-								</label>
-							</div>
-							<div class="right">
-								<label for="">Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies Strictly necessary cookies</label>
-								<p>
-									These cookies are essential to provide you with services available through our website and to enable you to use certain
-									features of our website. Without these cookies, we cannot provide you certain services on our website.
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="cookie-consent-btn" style="margin-top: 20px">
-						<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-necessary-cookies" onclick="">Aceptar sólo cookies necesarias</button>
-						<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-cookies" onclick="CookieConsent.acceptAll()">Aceptar todas las cookies</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</body>
 </html>
