@@ -24,7 +24,8 @@ import locales from './locales.js'
 				btnPrimaryBackground: "green",
 				btnSecondaryText: "black",
 				btnSecondaryBackground: "white",
-				switchColor: "green"
+				switchColor: "green",
+				switchBackground: "blue",
 			},
 			cookiesPolicyLink: "",
 			locale: 'en'
@@ -192,8 +193,8 @@ import locales from './locales.js'
 		render() {
 			var options = this.options;
 			return /*html*/ `
-				<div class="cookie-consent" id="cookie-popup-cookies" style="color: ${options.color.textColor}; background-color: ${options.color.modalBackground}; border: 1px solid ${options.color.modalBorder};">
-					<div class="cookie-consent-modal">
+				<div class="cookie-consent" id="cookie-popup-cookies" style="color: ${options.color.textColor}; background-color: ${options.color.modalBackground};">
+					<div class="cookie-consent-modal" style="border: 1px solid ${options.color.modalBorder};">
 						<div class="cookie-consent-intro">
 							<h3>${options.text.modalTitle}</h3>
 							<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
@@ -201,64 +202,64 @@ import locales from './locales.js'
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
 								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 							</div>
-							<div class="cookie-consent-show-allcookies" id="cookie-manage-cookies" style="display: none;">
-								<div class="cookie-consent-allcookies">
+							<div id="cookie-manage-cookies" style="display: none;">
+								<div class="cookie-consent-cookie-consent-manage">
 									<div id="cookie-privacy">
-										<h4 id="cookie-privacy-title">${options.text.privacyTitle}</h4>
+										<h3 id="cookie-privacy-title">${options.text.privacyTitle}</h3>
 										<p id="cookie-privacy-text-definition">${options.text.privacyTextDefinition}</p>
 										<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
 									</div>
 								</div>
 								<div class="cookie-consent-options">
 									<div class="cookie-consent-options-item" id="cookie-strictly-necessary">
-										<div class="left">
+										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
 												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
-												<span class="cookie-consent-switch-slider round"></span>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
-										<div class="right">
+										<div class="cookie-consent-options-item-right">
 											<label for="${this.categories[this.strictlyNecessaryCookies].checkboxId}" id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</label>
 											<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
 										</div>
 									</div>
 									<div id="cookie-functionality" class="cookie-consent-options-item">
-										<div class="left">
+										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
 												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round"></span>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
-										<div class="right">
+										<div class="cookie-consent-options-item-right">
 											<label for="${this.categories[this.functionalityCookies].checkboxId}" id="cookie-functionality-title">${options.text.functionalityTitle}</label>
 											<p id="cookie-functionality-text">${options.text.functionalityText}</p>
 										</div>
 									</div>
 									<div id="cookie-tracking" class="cookie-consent-options-item">
-										<div class="left">
+										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
 												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round"></span>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
-										<div class="right">
+										<div class="cookie-consent-options-item-right">
 											<label for="${this.categories[this.trackingCookies].checkboxId}" id="cookie-tracking-title">${options.text.trackingTitle}</label>
 											<p id="cookie-tracking-text">${options.text.trackingText}</p>
 										</div>
 									</div>
 									<div id="cookie-targeting" class="cookie-consent-options-item">
-										<div class="left">
+										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
 												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round"></span>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
-										<div class="right">
+										<div class="cookie-consent-options-item-right">
 											<label for="${this.categories[this.targetingCookies].checkboxId}" id="cookie-targeting-title">${options.text.targetingTitle}</label>
 											<p id="cookie-targeting-text">${options.text.targetingText}</p>
 										</div>
 									</div>
-									<div class="cookie-consent-btn" style="margin-top: 20px">
+									<div class="cookie-consent-btn" style="padding-bottom: 40px">
 										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
 										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 									</div>
