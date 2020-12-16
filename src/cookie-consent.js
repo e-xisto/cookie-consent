@@ -412,7 +412,7 @@ import locales from './locales.js'
 									<div id="cookie-functionality" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${!this.cookies.functionalityCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
@@ -424,7 +424,7 @@ import locales from './locales.js'
 									<div id="cookie-tracking" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${!this.cookies.trackingCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
@@ -436,7 +436,7 @@ import locales from './locales.js'
 									<div id="cookie-targeting" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${!this.cookies.targetingCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
