@@ -1,6 +1,6 @@
 export default {
 	modalTitle: "Fem servir cookies",
-	noticeText: "Fem servir cookies i altres tecnologies de seguiment per millorar la teva experiència de navegació al nostre lloc web, per mostrar-te contingut personalitzat i anuncis interessants per a tu, per analitzar el nostre tràfic i entendre d’on venen els nostres visitants. En navegar pel nostre lloc web, consentiu l’ús que fem de cookies i altres tecnologies de seguiment. Per obtenir més informació sobre aquestes cookies, com i per què les fem servir i com podeu canviar la configuració, consulteu la nostra <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\"> Política de cookies </a>. ", // {{cookiesPolicyLink}}
+	noticeText: "Fem servir cookies i altres tecnologies de seguiment per millorar la teva experiència de navegació al nostre lloc web, per mostrar-te contingut personalitzat i anuncis interessants per a tu, per analitzar el nostre tràfic i entendre d’on venen els nostres visitants. En navegar pel nostre lloc web, consentiu l’ús que fem de cookies i altres tecnologies de seguiment. Per obtenir més informació sobre aquestes cookies, com i per què les fem servir i com podeu canviar la configuració, consulteu la nostra <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Política de cookies</a>. ", // {{cookiesPolicyLink}}
 	btnAcceptAll: "Accepta totes les cookies",
 	btnManageCookies: "Gestiona les cookies",
 	btnAcceptSelection: "Accepta les cookies seleccionades",
