@@ -66,10 +66,15 @@ import locales from './locales.js'
 
 		setOptions(options) {
 
+			this.options.locale = options.locale;
 			if (options.locale && locales[options.locale]) this.options.text = locales[options.locale];
 			for (var i in options.text) {
 				this.options.text[i] = options.text[i];
 			}
+			for (var i in options.color) {
+				this.options.color[i] = options.color[i];
+			}
+			if (options.cookiesPolicyLink) this.options.cookiesPolicyLink = options.cookiesPolicyLink;
 		}
 
 
