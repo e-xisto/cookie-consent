@@ -16,15 +16,19 @@ import locales from './locales.js'
 		options = {
 			text: locales.en,
 			color: { //TODO default colors
-				textColor: "black",
-				linkColor: "",
-				modalBackground: "grey",
-				modalBorder: "black",
-				btnPrimaryText: "black",
-				btnPrimaryBackground: "green",
-				btnSecondaryText: "black",
+				textColor: "#6B7280",
+				titleColor: "black",
+				linkColor: "black",
+				modalBackground: "white",
+				modalBorder: "white",
+				btnPrimaryText: "white",
+				btnPrimaryBackground: "#059669",
+				btnSecondaryText: "#6B7280",
 				btnSecondaryBackground: "white",
-				switchColor: "green"
+				btnSecondaryBorder: "#D1D5DB",
+				switchColor: "green",
+				switchBackground: "#D1D5DB",
+				switchActiveBackground: "#059669"
 			},
 			cookiesPolicyLink: "",
 			locale: 'en'
@@ -71,6 +75,7 @@ import locales from './locales.js'
 
 		openPopup() {
 			this.loadCookies();
+			document.body.style.overflow = "hidden";
 			if (!document.getElementById('cookie-popup-cookies')) {
 				if (document.readyState !== 'loading') {
 					document.body.insertAdjacentHTML('beforeend', this.render());
@@ -84,6 +89,7 @@ import locales from './locales.js'
 
 		closePopup() {
 			document.getElementById('cookie-popup-cookies').remove();
+			document.body.style.overflow = "auto";
 		}
 
 		checkCookie(category, callback) {
@@ -128,6 +134,7 @@ import locales from './locales.js'
 			for (let category in this.categories) {
 				this.cookies[category] = true;
 			}
+			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
 			this.closePopup();
 		}
@@ -140,6 +147,7 @@ import locales from './locales.js'
 				if (this.categories[category].mandatory || document.getElementById(this.categories[category].checkboxId).checked)
 					this.cookies[category] = true;
 			}
+			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
 			this.closePopup();
 		}
@@ -175,7 +183,9 @@ import locales from './locales.js'
 				this.manageCookiesShown = false;
 			} else {
 				document.getElementById('cookie-manage-cookies').style.display = 'block';
+				document.getElementById('cookie-consent-btn').style.display = 'none'
 				this.manageCookiesShown = true;
+
 			}
 		}
 
@@ -192,40 +202,256 @@ import locales from './locales.js'
 		render() {
 			var options = this.options;
 			return /*html*/ `
-				<div id="cookie-popup-cookies" style="color: ${options.color.textColor}; background-color: ${options.color.modalBackground}; border: 1px solid ${options.color.modalBorder};">
-					<h3>${options.text.modalTitle}</h3>
-					<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
-					<button type="button" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
-					<button type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
-					<div id="cookie-manage-cookies" style="display: none;">
-						<div id="cookie-privacy">
-							<h4 id="cookie-privacy-title">${options.text.privacyTitle}</h4>
-							<p id="cookie-privacy-text-definition">${options.text.privacyTextDefinition}</p>
-							<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
-						</div>
-						<div id="cookie-strictly-necessary">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
-							<h4 id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</h4>
-							<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
-						</div>
-						<div id="cookie-functionality">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
-							<h4 id="cookie-functionality-title">${options.text.functionalityTitle}</h4>
-							<p id="cookie-functionality-text">${options.text.functionalityText}</p>
-						</div>
-						<div id="cookie-tracking">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
-							<h4 id="cookie-tracking-title">${options.text.trackingTitle}</h4>
-							<p id="cookie-tracking-text">${options.text.trackingText}</p>
-						</div>
-						<div id="cookie-targeting">
-							<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
-							<h4 id="cookie-targeting-title">${options.text.targetingTitle}</h4>
-							<p id="cookie-targeting-text">${options.text.targetingText}</p>
-						</div>
 
-						<button type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
-						<button type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+			<style>
+
+				.cookie-consent {
+					background-color: rgba(0, 0, 0, 0.8);
+					font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Segoe UI Symbol";
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100vw;
+					height: 100vh;
+					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.32);
+				}
+
+				.cookie-consent-modal {
+					background-color: ${options.color.modalBackground};
+					width: 700px;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
+					max-height: calc(900px - 192px);
+					overflow-y: scroll;
+					border-radius: 6px;
+				}
+
+				.cookie-consent-intro { padding: 25px 30px; }
+
+				.cookie-consent-modal h3 {
+					font-size: 28px;
+					margin-top: 0;
+					margin-bottom: 16px;
+				}
+
+				.cookie-consent-intro p a {
+					color: ${options.color.linkColor};
+					text-decoration: underline;
+					font-weight: 500;
+					text-transform: lowercase;
+				}
+
+				.cookie-consent-modal p { line-height: 22px; }
+
+				.cookie-consent-modal a { text-decoration: none; }
+
+				.cookie-consent-btn {
+					display: flex;
+					justify-content: flex-end;
+					padding-top: 15px;
+				}
+
+				.cookie-consent-btn button {
+					padding: 10px 30px;
+					font-size: 14px;
+					border-radius: 4px;
+					cursor: pointer;
+				}
+
+				.cookie-consent-btn button:focus { outline: none !important }
+				.cookie-consent-btn-manage { margin-right: 20px; }
+				.cookie-consent-btn-accept { text-transform: uppercase; }
+
+				.cookie-consent-options-item {
+					display: flex;
+					margin-bottom: 20px;
+				}
+
+				.cookie-consent-options-item-right { margin-left: 15px; }
+
+				.cookie-consent-options-item-right label {
+					font-size: 20px;
+					font-weight: bold;
+					cursor: pointer;
+				}
+
+				.cookie-consent-options-item-right label + p {
+					margin-top: 10px;
+					font-size: 14px;
+					line-height: 20px;
+				}
+
+				.cookie-consent-switch {
+					position: relative;
+					display: inline-block;
+					width: 40px;
+					height: 24px;
+				}
+
+				.cookie-consent-switch input {
+					width: 0; //ocultar checkbox
+					height: 0; //ocultar checkbox
+				}
+
+				.cookie-consent-switch-slider {
+					position: absolute;
+					cursor: pointer;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					-webkit-transition: .4s;
+					transition: .4s;
+				}
+
+				.cookie-consent-switch-slider:before {
+					position: absolute;
+					content: "";
+					height: 18px;
+					width: 18px;
+					left: 4px;
+					bottom: 3px;
+					background-color: white;
+					-webkit-transition: .4s;
+					transition: .4s;
+				}
+
+				input:checked + .cookie-consent-switch-slider { background-color: ${options.color.switchActiveBackground} !important; }
+
+				input:checked + .cookie-consent-switch-slider:before {
+					-webkit-transform: translateX(15px);
+					-ms-transform: translateX(15px);
+					transform: translateX(15px);
+				}
+
+				.cookie-consent-switch-slider.round { border-radius: 30px; }
+				.cookie-consent-switch-slider.round:before { border-radius: 50%; }
+				#cookie-privacy-text-instructions { margin-bottom: 30px; }
+
+				@media (max-width: 768px) {
+
+					.cookie-consent p {
+						font-size: 14px;
+						line-height: 20px;
+					}
+
+					.cookie-consent-modal {
+						width: 90%;
+						max-height: calc(100% - 25px);
+					}
+
+					.cookie-consent-intro { padding: 15px; }
+
+					.cookie-consent-btn {
+						display: block;
+						margin: 0 10px;
+					}
+
+					.cookie-consent-switch {
+						width: 32px;
+						height: 20px;
+					}
+
+					.cookie-consent-switch-slider:before {
+						width: 14px;
+						height: 14px;
+					}
+
+					input:checked + .cookie-consent-switch-slider:before {
+						-webkit-transform: translateX(11px);
+						-ms-transform: translateX(11px);
+						transform: translateX(11px);
+					}
+
+					.cookie-consent-btn button { width: 100% }
+
+					.cookie-consent-btn-manage {
+						margin-bottom: 10px;
+						margin-right: 0;
+					}
+
+					.cookie-consent-options-item-right label { font-size: 16px; }
+					.cookie-consent-manage { padding: 15px 20px; }
+					.cookie-consent-options { padding: 0; }
+				}
+			</style>
+
+
+				<div class="cookie-consent" id="cookie-popup-cookies" style="color: ${options.color.textColor};">
+					<div class="cookie-consent-modal" style="border: 1px solid ${options.color.modalBorder}; background-color: ${options.color.modalBackground};">
+						<div class="cookie-consent-intro">
+							<h3 style="color: ${options.color.titleColor}">${options.text.modalTitle}</h3>
+							<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
+							<div class="cookie-consent-btn" id="cookie-consent-btn">
+								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
+								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+							</div>
+							<div id="cookie-manage-cookies" style="display: none;">
+								<div class="cookie-consent-cookie-consent-manage">
+									<div id="cookie-privacy">
+										<h3 style="color: ${options.color.titleColor}" id="cookie-privacy-title">${options.text.privacyTitle}</h3>
+										<p id="cookie-privacy-text-definition">${options.text.privacyTextDefinition}</p>
+										<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
+									</div>
+								</div>
+								<div class="cookie-consent-options">
+									<div class="cookie-consent-options-item" id="cookie-strictly-necessary">
+										<div class="cookie-consent-options-item-left">
+											<label class="cookie-consent-switch">
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}; opacity: .5;"></span>
+											</label>
+										</div>
+										<div class="cookie-consent-options-item-right">
+											<label style="color: ${options.color.titleColor}" for="${this.categories[this.strictlyNecessaryCookies].checkboxId}" id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</label>
+											<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
+										</div>
+									</div>
+									<div id="cookie-functionality" class="cookie-consent-options-item">
+										<div class="cookie-consent-options-item-left">
+											<label class="cookie-consent-switch">
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${!this.cookies.functionalityCookies ? 'checked' : ''}/>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+											</label>
+										</div>
+										<div class="cookie-consent-options-item-right">
+											<label style="color: ${options.color.titleColor}" for="${this.categories[this.functionalityCookies].checkboxId}" id="cookie-functionality-title">${options.text.functionalityTitle}</label>
+											<p id="cookie-functionality-text">${options.text.functionalityText}</p>
+										</div>
+									</div>
+									<div id="cookie-tracking" class="cookie-consent-options-item">
+										<div class="cookie-consent-options-item-left">
+											<label class="cookie-consent-switch">
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${!this.cookies.trackingCookies ? 'checked' : ''}/>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+											</label>
+										</div>
+										<div class="cookie-consent-options-item-right">
+											<label style="color: ${options.color.titleColor}" for="${this.categories[this.trackingCookies].checkboxId}" id="cookie-tracking-title">${options.text.trackingTitle}</label>
+											<p id="cookie-tracking-text">${options.text.trackingText}</p>
+										</div>
+									</div>
+									<div id="cookie-targeting" class="cookie-consent-options-item">
+										<div class="cookie-consent-options-item-left">
+											<label class="cookie-consent-switch">
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${!this.cookies.targetingCookies ? 'checked' : ''}/>
+												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+											</label>
+										</div>
+										<div class="cookie-consent-options-item-right">
+											<label style="color: ${options.color.titleColor}" for="${this.categories[this.targetingCookies].checkboxId}" id="cookie-targeting-title">${options.text.targetingTitle}</label>
+											<p id="cookie-targeting-text">${options.text.targetingText}</p>
+										</div>
+									</div>
+									<div class="cookie-consent-btn">
+										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
+										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			`;
