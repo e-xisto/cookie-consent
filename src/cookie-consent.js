@@ -12,6 +12,8 @@ import locales from './locales.js'
 
 		categories = {};
 		cookies = null;
+		overflowbody = '';
+		initial = true;
 
 		options = {
 			text: locales.en,
@@ -59,8 +61,27 @@ import locales from './locales.js'
 		config(options) {
 			this.setOptions(options);
 			if (!this.checkCookie(this.strictlyNecessaryCookies)) {
-				this.openPopup();
+
+				this.initCookies();
+
+				if (document.readyState !== 'loading') {
+					this.openPopup();
+				} else {
+					document.addEventListener("DOMContentLoaded", (event) => {
+						this.openPopup();
+					});
+				}
 			}
+		}
+
+
+		initCookies() {
+			this.cookies = {};
+			this.cookies[this.strictlyNecessaryCookies] = true;
+			this.cookies[this.functionalityCookies] = true;
+			this.cookies[this.trackingCookies] = true;
+			this.cookies[this.targetingCookies] = true;
+			this.initial = true;
 		}
 
 
@@ -80,21 +101,20 @@ import locales from './locales.js'
 
 		openPopup() {
 			this.loadCookies();
-			document.body.style.overflow = "hidden";
-			if (!document.getElementById('cookie-popup-cookies')) {
-				if (document.readyState !== 'loading') {
-					document.body.insertAdjacentHTML('beforeend', this.render());
-				} else {
-					document.addEventListener("DOMContentLoaded", (event) => {
-						document.body.insertAdjacentHTML('beforeend', this.render());
-					});
-				}
+			let popup = document.getElementById('cookie-popup-cookies');
+			if (!popup) {
+				document.body.insertAdjacentHTML('beforeend', this.render());
+				this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
+				document.body.style.overflow = "hidden";
 			}
 		}
 
 		closePopup() {
-			document.getElementById('cookie-popup-cookies').remove();
-			document.body.style.overflow = "auto";
+			let popup = document.getElementById('cookie-popup-cookies');
+			if (popup) {
+				popup.remove();
+				if (this.overflowbody) document.body.style.overflow = this.overflowbody;
+			}
 		}
 
 		checkCookie(category, callback) {
@@ -118,7 +138,8 @@ import locales from './locales.js'
 			}
 
 			if (string) this.cookies = JSON.parse(string);
-			else this.cookies = {};
+			else if (!this.initial) this.cookies = {};
+			this.initial = false;
 		}
 
 		acceptCookies(cookies) {
