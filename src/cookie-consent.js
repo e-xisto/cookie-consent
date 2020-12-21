@@ -238,7 +238,7 @@ import locales from './locales.js'
 					top: 0;
 					left: 0;
 					width: 100vw;
-					height: 100vh;
+					height: 100%;
 					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.32);
 				}
 
@@ -317,8 +317,9 @@ import locales from './locales.js'
 				}
 
 				.cookie-consent-switch input {
-					width: 0; //ocultar checkbox
-					height: 0; //ocultar checkbox
+					width: 0;
+					height: 0;
+					visibility: hidden;
 				}
 
 				.cookie-consent-switch-slider {
@@ -372,7 +373,6 @@ import locales from './locales.js'
 
 					.cookie-consent-btn {
 						display: block;
-						margin: 0 10px;
 					}
 
 					.cookie-consent-switch {
@@ -398,6 +398,7 @@ import locales from './locales.js'
 						margin-right: 0;
 					}
 
+					.cookie-consent-btn-accept { min-height: 50px }
 					.cookie-consent-options-item-right label { font-size: 16px; }
 					.cookie-consent-manage { padding: 15px 20px; }
 					.cookie-consent-options { padding: 0; }
