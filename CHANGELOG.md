@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.0.6]
+
+### Added
+
+- Doc example y readme updated
+
+### Fixed
+
+- Check correctly first interaction
 
 ## [1.0.5]
 
