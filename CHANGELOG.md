@@ -8,12 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.0.5]
+
+### Fixed
+
+- Modal height when we press "manage cookies" on mobile devices.
+- Checkbox visibility on Safari.
+
+### Changed
+
+- Primary action button (accept all cookies) more obvious.
+- Removed margin from X asis in button block on mobile devices.
+
+
 ## [1.0.4]
 
 ### Fixed
 
 - Open modal on first load
 - Initial load all true
+
 
 ## [1.0.3]
 
