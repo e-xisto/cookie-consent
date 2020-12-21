@@ -13,7 +13,7 @@ import locales from './locales.js'
 		categories = {};
 		cookies = null;
 		overflowbody = '';
-		initial = true;
+		initial = false;
 
 		options = {
 			text: locales.en,
@@ -77,10 +77,6 @@ import locales from './locales.js'
 
 		initCookies() {
 			this.cookies = {};
-			this.cookies[this.strictlyNecessaryCookies] = true;
-			this.cookies[this.functionalityCookies] = true;
-			this.cookies[this.trackingCookies] = true;
-			this.cookies[this.targetingCookies] = true;
 			this.initial = true;
 		}
 
@@ -107,6 +103,7 @@ import locales from './locales.js'
 				this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
 				document.body.style.overflow = "hidden";
 			}
+			this.initial = false;
 		}
 
 		closePopup() {
@@ -138,8 +135,7 @@ import locales from './locales.js'
 			}
 
 			if (string) this.cookies = JSON.parse(string);
-			else if (!this.initial) this.cookies = {};
-			this.initial = false;
+			else this.cookies = {};
 		}
 
 		acceptCookies(cookies) {
@@ -439,7 +435,7 @@ import locales from './locales.js'
 									<div id="cookie-functionality" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies || this.initial ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
@@ -451,7 +447,7 @@ import locales from './locales.js'
 									<div id="cookie-tracking" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies || this.initial ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>
@@ -463,7 +459,7 @@ import locales from './locales.js'
 									<div id="cookie-targeting" class="cookie-consent-options-item">
 										<div class="cookie-consent-options-item-left">
 											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
+												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies || this.initial ? 'checked' : ''}/>
 												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
 											</label>
 										</div>

@@ -10,6 +10,19 @@
 			CookieConsent.config({});
 		</script>
 
+		<script>
+			CookieConsent.checkCookie('strictlyNecessaryCookies', function() {
+				console.log('fires strictlyNecessaryCookies');
+			});
+		</script>
+
+
+		<script>
+			CookieConsent.checkCookie('trackingCookies', function() {
+				console.log('fires trackingCookies');
+			});
+		</script>
+
 
 	</head>
 	<body style="margin: 0">
@@ -38,15 +51,19 @@
 						targetingText: "",
 					},
 					color: {
-						textColor: "",
-						linkColor: "",
-						modalBackground: "",
-						modalBorder: "",
-						btnPrimaryText: "",
-						btnPrimaryBackground: "",
-						btnSecondaryText: "",
-						btnSecondaryBackground: "",
-						switchColor: ""
+						textColor: "#6B7280",
+						titleColor: "black",
+						linkColor: "black",
+						modalBackground: "white",
+						modalBorder: "white",
+						btnPrimaryText: "white",
+						btnPrimaryBackground: "#059669",
+						btnSecondaryText: "#6B7280",
+						btnSecondaryBackground: "white",
+						btnSecondaryBorder: "#D1D5DB",
+						switchColor: "green",
+						switchBackground: "#D1D5DB",
+						switchActiveBackground: "#059669"
 					},
 					cookiesPolicyLink:"",
 					locale: ""
