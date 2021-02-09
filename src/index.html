@@ -30,47 +30,51 @@
 			<h1>Cookie consent test</h1>
 			<p>Explicación?</p>
 			<p>doc?</p>
-			<code>
-				{
-					text: {
-						modalTitle: "",
-						noticeText: "", // {{cookiesPolicyLink}}
-						btnAcceptAll: "",
-						btnManageCookies: "",
-						btnAcceptSelection: "",
-						privacyTitle: "",
-						privacyTextDefinition: "",
-						privacyTextInstructions: "",
-						strictlyNecessaryTitle: "",
-						strictlyNecessaryText: "",
-						functionalityTitle: "",
-						functionalityText: "",
-						trackingTitle: "",
-						trackingText: "",
-						targetingTitle: "",
-						targetingText: "",
-					},
-					color: {
-						textColor: "#6B7280",
-						titleColor: "black",
-						linkColor: "black",
-						modalBackground: "white",
-						modalBorder: "white",
-						btnPrimaryText: "white",
-						btnPrimaryBackground: "#059669",
-						btnSecondaryText: "#6B7280",
-						btnSecondaryBackground: "white",
-						btnSecondaryBorder: "#D1D5DB",
-						switchColor: "green",
-						switchBackground: "#D1D5DB",
-						switchActiveBackground: "#059669"
-					},
-					cookiesPolicyLink:"",
-					locale: ""
-				}
-				<br>
-				<br>
-			<button type="button" onclick="CookieConsent.openPopup()">Open popup</button>
+<pre>
+<code>
+{
+	text: {
+		modalTitle: "",
+		noticeText: "", // {{cookiesPolicyLink}}
+		btnAcceptAll: "",
+		btnManageCookies: "",
+		btnAcceptSelection: "",
+		privacyTitle: "",
+		privacyTextDefinition: "",
+		privacyTextInstructions: "",
+		strictlyNecessaryTitle: "",
+		strictlyNecessaryText: "",
+		functionalityTitle: "",
+		functionalityText: "",
+		trackingTitle: "",
+		trackingText: "",
+		targetingTitle: "",
+		targetingText: "",
+	},
+	color: {
+		textColor: "#6B7280",
+		titleColor: "black",
+		linkColor: "black",
+		modalBackground: "white",
+		modalBorder: "white",
+		btnPrimaryText: "white",
+		btnPrimaryBackground: "#059669",
+		btnSecondaryText: "#6B7280",
+		btnSecondaryBackground: "white",
+		btnSecondaryBorder: "#D1D5DB",
+		switchColor: "green",
+		switchBackground: "#D1D5DB",
+		switchActiveBackground: "#059669"
+	},
+	cookiesPolicyLink:"",
+	locale: ""
+}
+</code>
+</pre>
+	<br>
+	<br>
+			<button type="button" onclick="CookieConsent.openPopup()">Open popup (button)</button>
+			<a href="javascript:CookieConsent.openPopup()">Open popup (link)</a>
 		</div>
 	</body>
 </html>
