@@ -236,6 +236,7 @@ import locales from './locales.js'
 					width: 100vw;
 					height: 100%;
 					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.32);
+					z-index: 9999999999;
 				}
 
 				.cookie-consent-modal {
