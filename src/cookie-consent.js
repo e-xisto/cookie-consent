@@ -246,7 +246,7 @@ import locales from './locales.js'
 					left: 50%;
 					top: 50%;
 					transform: translate(-50%, -50%);
-					max-height: calc(900px - 192px);
+					max-height: 80%;
 					overflow-y: scroll;
 					border-radius: 6px;
 				}
