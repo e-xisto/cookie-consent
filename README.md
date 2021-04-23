@@ -93,3 +93,39 @@ let config = {
 }
 
 ```
+
+
+### Script loading example
+
+Replace ID_GOOGLETAGMANAGER with your google analytics id
+
+```html
+<head>
+
+[...]
+
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=<ID_GOOGLETAGMANAGER>"></script> -->
+<script>
+	CookieConsent.checkCookie('trackingCookies', function() {
+		var script = document.createElement('script');
+		script.src = 'https://www.googletagmanager.com/gtag/js?id=<ID_GOOGLETAGMANAGER>';
+		script.async = true;
+		document.head.appendChild(script);
+	});
+
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	CookieConsent.checkCookie('trackingCookies', function() {
+		gtag('js', new Date());
+
+		gtag('config', '<ID_GOOGLETAGMANAGER>', {
+			'currency': 'EUR',
+		});
+	});
+</script>
+
+[...]
+
+</head>
+
+````
