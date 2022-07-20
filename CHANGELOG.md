@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.10]
+
+### Fixed
+
+- Modal scroll auto on Y asis
+- Spacing first title when we click "manage cookies"
+
 ## [1.0.9]
 
 ### Fixed

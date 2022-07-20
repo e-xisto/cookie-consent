@@ -247,7 +247,7 @@ import locales from './locales.js'
 					top: 50%;
 					transform: translate(-50%, -50%);
 					max-height: 80%;
-					overflow-y: scroll;
+					overflow-y: auto;
 					border-radius: 6px;
 				}
 
@@ -415,7 +415,7 @@ import locales from './locales.js'
 							<div id="cookie-manage-cookies" style="display: none;">
 								<div class="cookie-consent-cookie-consent-manage">
 									<div id="cookie-privacy">
-										<h3 style="color: ${options.color.titleColor}" id="cookie-privacy-title">${options.text.privacyTitle}</h3>
+										<h3 style="color: ${options.color.titleColor}; margin-top: 16px" id="cookie-privacy-title">${options.text.privacyTitle}</h3>
 										<p id="cookie-privacy-text-definition">${options.text.privacyTextDefinition}</p>
 										<p id="cookie-privacy-text-instructions">${options.text.privacyTextInstructions}</p>
 									</div>
