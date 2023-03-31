@@ -1,6 +1,6 @@
 {
   "name": "@e-xisto/cookie-consent",
-  "version": "1.0.10",
+  "version": "1.0.21",
   "description": "",
   "main": "src/cookie-consent.js",
   "scripts": {
@@ -8,8 +8,9 @@
     "build": "npx npm-run-all --serial prod:del prod:parcel",
     "prod:del": "rimraf dist",
     "prod:parcel": "parcel build ./src/cookie-consent.js --no-content-hash --no-source-maps",
-    "dev": "npx npm-run-all --parallel dev:*",
-    "dev:parcel": "parcel ./src/index.html"
+    "dev": "npm run check-node-version && npx npm-run-all --parallel dev:*",
+    "dev:parcel": "parcel ./src/index.html",
+    "check-node-version": "if [ $(cat .nvmrc) != $(node -v) ]; then echo '\n La versión de Node actual no coincide con la definida en .nvmrc. \n' && exit 1; fi"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/e-xisto/cookie-consent#readme",
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
     "rimraf": "^3.0.2"
   },
