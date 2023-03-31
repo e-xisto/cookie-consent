@@ -2,6 +2,7 @@ export default {
 	modalTitle: "Noi usiamo i cookies",
 	noticeText: "Noi usiamo i cookies e altre tecniche di tracciamento per migliorare la tua esperienza di navigazione nel nostro sito, per mostrarti contenuti personalizzati e annunci mirati, per analizzare il traffico sul nostro sito, e per capire da dove arrivano i nostri visitatori. Navigando nel nostro sito web, acconsenti al nostro utilizzo dei cookie e di altre tecnologie di tracciamento. Per ulteriori informazioni su questi cookie, su come e perché li utilizziamo e su come puoi modificare le tue impostazioni, consulta la nostra <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Cookie Policy</a>. ", // {{cookiesPolicyLink}}
 	btnAcceptAll: "Accetta tutti i cookie",
+  btnRejectAll: "Rifiutare tutti i cookie",  
 	btnManageCookies: "Gestisci i cookie",
 	btnAcceptSelection: "Accetta i cookie selezionati",
 	privacyTitle: "La tua privacy è importante per noi",
