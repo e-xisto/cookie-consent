@@ -2,6 +2,7 @@ export default {
 	modalTitle: "Ihre Privatsphäre ist uns wichtig",
 	noticeText: "Diese Website verwendet Cookies und Targeting Technologien um Ihnen ein besseres Internet-Erlebnis zu ermöglichen und die Werbung, die Sie sehen, besser an Ihre Bedürfnisse anzupassen. Diese Technologien nutzen wir außerdem um Ergebnisse zu messen, um zu verstehen, woher unsere Besucher kommen oder um unsere Website weiter zu entwickeln. Durch das Surfen auf unserer Website stimmen Sie der Verwendung von Cookies und anderen Tracking-Technologien zu. Weitere Informationen zu diesen Cookies, wie und warum wir sie verwenden und wie Sie Ihre Einstellungen ändern können, finden Sie in unserer <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Cookie-Richtlinie</a>.", // {{cookiesPolicyLink}}
 	btnAcceptAll: "Akzeptiere alle Cookies",
+  btnRejectAll: "Alle Cookies ablehnen",
 	btnManageCookies: "Manage cookies",
 	btnAcceptSelection: "Akzeptieren Sie ausgewählte Cookies",
 	privacyTitle: "Ihre Privatsphäre ist uns wichtig",
