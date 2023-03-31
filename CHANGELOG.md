@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.20] - 20213/03/31
+
+### Added
+
+- Reject all button
+
 ## [1.0.10]
 
 ### Fixed

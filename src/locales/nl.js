@@ -2,6 +2,7 @@ export default {
 	modalTitle: "Wij gebruiken cookies",
 	noticeText: "Wij maken gebruik van cookies en andere tracking-technologieën om uw surfervaring op onze website te verbeteren, om gepersonaliseerde inhoud en advertenties te tonen, om onze website trafiek te analyseren en om te begrijpen waar onze bezoekers vandaan komen. Door onze website te bezoeken, stemt u in met ons gebruik van cookies en andere volgtechnologieën. Raadpleeg ons <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Cookiebeleid</a> voor meer informatie over deze cookies, hoe en waarom we ze gebruiken en hoe u uw instellingen kunt wijzigen",
 	btnAcceptAll: "Accepteer alle cookies",
+  btnRejectAll: "Alle cookies weigeren",
 	btnManageCookies: "Beheer cookies",
 	btnAcceptSelection: "Accepteer geselecteerde cookies",
 	privacyTitle: "Uw privacy is belangrijk voor ons",

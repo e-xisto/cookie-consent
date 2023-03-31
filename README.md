@@ -59,6 +59,7 @@ let config = {
 		modalTitle: "",
 		noticeText: "", // {{cookiesPolicyLink}}
 		btnAcceptAll: "",
+		btnRejectAll: "",
 		btnManageCookies: "",
 		btnAcceptSelection: "",
 		privacyTitle: "",
