@@ -49,7 +49,7 @@ import locales from './locales.js'
 		}
 
 
-		initCookieIndex(cookieName) {
+		initCookieIndex(cookieName) {
 			this.categories[cookieName] = {
 				name: cookieName,
 				event: new CustomEvent(cookieName, {}),
@@ -60,10 +60,8 @@ import locales from './locales.js'
 
 		config(options) {
 			this.setOptions(options);
-			if (!this.checkCookie(this.strictlyNecessaryCookies)) {
-
+			if (!this.getCookie('cookie_consent')) {
 				this.initCookies();
-
 				if (document.readyState !== 'loading') {
 					this.openPopup();
 				} else {
