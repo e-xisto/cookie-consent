@@ -6,13 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.21] - 20213/03/31
+## [1.0.22] - 2023/04/3
+
+### Fixed
+
+- Check if 'cookie_consent' cookie exists instead of 'strictlyNecessaryCookies'
+
+## [1.0.21] - 2023/03/31
 
 ### Fixed
 
 - "Rechazar" text
 
-## [1.0.20] - 20213/03/31
+## [1.0.20] - 2023/03/31
 
 ### Added
 
