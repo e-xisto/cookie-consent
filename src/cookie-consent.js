@@ -60,7 +60,7 @@ import locales from './locales.js'
 
 		config(options) {
 			this.setOptions(options);
-			if (!this.getCookie('cookie_consent')) {
+			if (!win.localStorage.getItem('cookie_consent')) {
 				this.initCookies();
 				if (document.readyState !== 'loading') {
 					this.openPopup();
