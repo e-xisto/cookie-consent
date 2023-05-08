@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.24] - 2023/05/8
+
+### Fixed
+
+- Change locale "ca_es" to "ca"
+
 ## [1.0.23] - 2023/05/4
 
 ### Fixed
