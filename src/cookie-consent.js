@@ -2,6 +2,8 @@ import locales from './locales.js'
 
 (function (win) {
 
+  win.dataLayer = win.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
 
 	class CookieConsent {
 
@@ -39,13 +41,13 @@ import locales from './locales.js'
 		manageCookiesShown = false;
 
 		constructor () {
-
 			this.initCookieIndex(this.strictlyNecessaryCookies);
 			this.initCookieIndex(this.functionalityCookies);
 			this.initCookieIndex(this.trackingCookies);
 			this.initCookieIndex(this.targetingCookies);
 
-			this.categories[this.strictlyNecessaryCookies].mandatory = true;
+			this.categories[this.strictlyNecessaryCookies].mandatory = true; 
+      this.loadCookies()   
 		}
 
 
@@ -94,7 +96,6 @@ import locales from './locales.js'
 
 
 		openPopup() {
-			this.loadCookies();
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
@@ -132,19 +133,41 @@ import locales from './locales.js'
 				if (!string) string = win.localStorage.getItem('cookie_consent');
 			}
 
-			if (string) this.cookies = JSON.parse(string);
-			else this.cookies = {};
+			if (string) {
+        this.cookies = JSON.parse(string);
+        
+        gtag('consent', 'default', {
+          'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
+          'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
+          'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
+          'personalization_storage': 'granted',
+          'security_storage': 'granted',        
+        }); 
+      }
+			else {
+        this.cookies = {};
+
+        gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied',
+          'functionality_storage': 'granted',
+          'personalization_storage': 'granted',
+          'security_storage': 'granted',        
+        });          
+      }
 		}
 
 		acceptCookies(cookies) {
-
 			let stringify = JSON.stringify(cookies);
 
 			this.setCookie('cookie_consent', stringify);
 			if (win.localStorage) win.localStorage.setItem('cookie_consent', stringify);
 
 			for (let category in cookies) {
-				if (cookies[category] && this.categories[category]) document.dispatchEvent(this.categories[category].event);
+				if (cookies[category] && this.categories[category]) {
+          console.log(category, cookies[category])
+          document.dispatchEvent(this.categories[category].event);
+        }
 			}
 		}
 
@@ -157,6 +180,14 @@ import locales from './locales.js'
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
 			this.closePopup();
+
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted',        
+      });        
 		}
 
 		rejectAll() {
@@ -168,6 +199,14 @@ import locales from './locales.js'
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
 			this.closePopup();
+
+      gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted',        
+      });        
 		}
 
 		acceptSelection() {
@@ -180,6 +219,15 @@ import locales from './locales.js'
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
 			this.closePopup();
+
+
+      gtag('consent', 'update', {
+        'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
+        'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
+        'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted',        
+      });      
 		}
 
 		setCookie(name, value, days) {
@@ -226,7 +274,6 @@ import locales from './locales.js'
 				document.getElementById('cookie-manage-cookies').style.display = 'block';
 				document.getElementById('cookie-consent-btn').style.display = 'none'
 				this.manageCookiesShown = true;
-
 			}
 		}
 
