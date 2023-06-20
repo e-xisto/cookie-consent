@@ -136,7 +136,7 @@ import locales from './locales.js'
 			if (string) {
         this.cookies = JSON.parse(string);
         
-        gtag('consent', 'default', {
+        gtag('consent', 'update', {
           'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
           'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
           'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
@@ -147,7 +147,7 @@ import locales from './locales.js'
 			else {
         this.cookies = {};
 
-        gtag('consent', 'default', {
+        gtag('consent', 'update', {
           'ad_storage': 'denied',
           'analytics_storage': 'denied',
           'functionality_storage': 'granted',
