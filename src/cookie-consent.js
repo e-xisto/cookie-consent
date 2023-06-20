@@ -161,6 +161,7 @@ import locales from './locales.js'
 
 		rejectAll() {
 			this.cookies = {};
+      this.eraseAllCookies();
 			for (let category in this.categories) {
 				this.cookies[category] = false;
 			}
@@ -170,8 +171,8 @@ import locales from './locales.js'
 		}
 
 		acceptSelection() {
-
 			this.cookies = {};
+      this.eraseAllCookies();
 			for (let category in this.categories) {
 				if (this.categories[category].mandatory || document.getElementById(this.categories[category].checkboxId).checked)
 					this.cookies[category] = true;
@@ -190,6 +191,7 @@ import locales from './locales.js'
 			}
 			document.cookie = name + "=" + (value || "") + expires + "; path=/";
 		}
+
 		getCookie(name) {
 			var nameEQ = name + "=";
 			var ca = document.cookie.split(';');
@@ -205,6 +207,16 @@ import locales from './locales.js'
 			document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 		}
 
+		eraseAllCookies() {
+      var cookies = document.cookie.split(";");
+
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        if(name != 'cookie_consent') document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+      }
+		}
 
 		manageCookies() {
 			if (this.manageCookiesShown) {

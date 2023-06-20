@@ -13,13 +13,28 @@
 		<script>
 			CookieConsent.checkCookie('strictlyNecessaryCookies', function() {
 				console.log('fires strictlyNecessaryCookies');
+        document.cookie = 'necesary=on'
 			});
 		</script>
 
+		<script>
+			CookieConsent.checkCookie('functionalityCookies', function() {
+				console.log('fires functionalityCookies');
+        document.cookie = 'funcionality=on'
+			});
+		</script>
 
 		<script>
 			CookieConsent.checkCookie('trackingCookies', function() {
 				console.log('fires trackingCookies');
+        document.cookie = 'tracking=on'
+			});
+		</script>
+
+		<script>
+			CookieConsent.checkCookie('targetingCookies', function() {
+				console.log('fires targetingCookies');
+        document.cookie = 'targeting=on'
 			});
 		</script>
 
