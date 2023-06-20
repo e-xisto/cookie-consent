@@ -50,7 +50,6 @@ import locales from './locales.js'
       this.loadCookies()   
 		}
 
-
 		initCookieIndex(cookieName) {
 			this.categories[cookieName] = {
 				name: cookieName,
@@ -58,7 +57,6 @@ import locales from './locales.js'
 				checkboxId: 'cookies-' + cookieName + '-checkbox',
 			};
 		}
-
 
 		config(options) {
 			this.setOptions(options);
@@ -74,12 +72,10 @@ import locales from './locales.js'
 			}
 		}
 
-
 		initCookies() {
 			this.cookies = {};
 			this.initial = true;
 		}
-
 
 		setOptions(options) {
 
@@ -93,7 +89,6 @@ import locales from './locales.js'
 			}
 			if (options.cookiesPolicyLink) this.options.cookiesPolicyLink = options.cookiesPolicyLink;
 		}
-
 
 		openPopup() {
 			let popup = document.getElementById('cookie-popup-cookies');
@@ -158,19 +153,18 @@ import locales from './locales.js'
 		}
 
 		acceptCookies(cookies) {
-			let stringify = JSON.stringify(cookies);
-
+      let stringify = JSON.stringify(cookies);
+      
+      this.eraseAllCookies();
 			this.setCookie('cookie_consent', stringify);
 			if (win.localStorage) win.localStorage.setItem('cookie_consent', stringify);
 
 			for (let category in cookies) {
 				if (cookies[category] && this.categories[category]) {
-          console.log(category, cookies[category])
           document.dispatchEvent(this.categories[category].event);
         }
 			}
 		}
-
 
 		acceptAll() {
 			this.cookies = {};
@@ -192,7 +186,6 @@ import locales from './locales.js'
 
 		rejectAll() {
 			this.cookies = {};
-      this.eraseAllCookies();
 			for (let category in this.categories) {
 				this.cookies[category] = false;
 			}
@@ -211,7 +204,6 @@ import locales from './locales.js'
 
 		acceptSelection() {
 			this.cookies = {};
-      this.eraseAllCookies();
 			for (let category in this.categories) {
 				if (this.categories[category].mandatory || document.getElementById(this.categories[category].checkboxId).checked)
 					this.cookies[category] = true;
@@ -277,7 +269,6 @@ import locales from './locales.js'
 			}
 		}
 
-
 		replace(text, data) {
 			for(let i in data) {
 				var regex = new RegExp('{{' + i + '}}', 'g');
@@ -285,7 +276,6 @@ import locales from './locales.js'
 			}
 			return text;
 		}
-
 
 		render() {
 			var options = this.options;
@@ -547,7 +537,6 @@ import locales from './locales.js'
 				</div>
 			`;
 		}
-
 	}
 
 
