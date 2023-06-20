@@ -248,14 +248,14 @@ import locales from './locales.js'
 		}
 
 		eraseAllCookies() {
-      var cookies = document.cookie.split(";");
-
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        if(name != 'cookie_consent') document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
-      }
+      console.log('hola')
+      document.cookie.replace(
+        /(?<=^|;).+?(?=\=|;|$)/g,
+        name => win.location.hostname
+          .split(/\.(?=[^\.]+\.)/)
+          .reduceRight((acc, val, i, arr) => i ? arr[i]='.'+val+acc : (arr[i]='', arr), '')
+          .map(domain => document.cookie=`${name}=;max-age=0;path=/;domain=${domain}`)
+      )
 		}
 
 		manageCookies() {
