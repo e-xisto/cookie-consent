@@ -44,7 +44,7 @@ import locales from './locales.js'
 			this.initCookieIndex(this.strictlyNecessaryCookies);
 			this.initCookieIndex(this.functionalityCookies);
 			this.initCookieIndex(this.trackingCookies);
-			this.initCookieIndex(this.targetingCookies);
+			this.initCookieIndex(this.targetingCookies); 
 
 			this.categories[this.strictlyNecessaryCookies].mandatory = true;
       this.loadCookies()
@@ -123,33 +123,17 @@ import locales from './locales.js'
 
 		loadCookies() {
 			let string = this.getCookie('cookie_consent');
+
 			if (win.localStorage) {
 				if (!win.localStorage.getItem('cookie_consent') && string) win.localStorage.setItem('cookie_consent', string);
 				if (!string) string = win.localStorage.getItem('cookie_consent');
 			}
 
-			if (string) {
-        this.cookies = JSON.parse(string);
-
-        gtag('consent', 'update', {
-          'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
-          'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
-          'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
-          'personalization_storage': 'granted',
-          'security_storage': 'granted',
-        });
-      }
-			else {
-        this.cookies = {};
-
-        gtag('consent', 'update', {
-          'ad_storage': 'denied',
-          'analytics_storage': 'denied',
-          'functionality_storage': 'granted',
-          'personalization_storage': 'granted',
-          'security_storage': 'granted',
-        });
-      }
+			if (string) this.cookies = JSON.parse(string);
+			else this.cookies = {};        
+      
+      this.updateGoogleTagManagerConsentMode();
+      this.sendGoogleTagManagerEvents();      
 		}
 
 		acceptCookies(cookies) {
@@ -164,6 +148,9 @@ import locales from './locales.js'
           document.dispatchEvent(this.categories[category].event);
         }
 			}
+
+      this.updateGoogleTagManagerConsentMode();
+      this.sendGoogleTagManagerEvents();
 		}
 
 		acceptAll() {
@@ -173,15 +160,7 @@ import locales from './locales.js'
 			}
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
-			this.closePopup();
-
-      gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'analytics_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted',
-      });
+			this.closePopup();       
 		}
 
 		rejectAll() {
@@ -191,15 +170,7 @@ import locales from './locales.js'
 			}
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
-			this.closePopup();
-
-      gtag('consent', 'update', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied',
-        'functionality_storage': 'denied',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted',
-      });
+			this.closePopup();  
 		}
 
 		acceptSelection() {
@@ -210,16 +181,7 @@ import locales from './locales.js'
 			}
 			this.manageCookiesShown = false;
 			this.acceptCookies(this.cookies);
-			this.closePopup();
-
-
-      gtag('consent', 'update', {
-        'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
-        'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
-        'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted',
-      });
+			this.closePopup();     
 		}
 
 		setCookie(name, value, days) {
@@ -248,7 +210,6 @@ import locales from './locales.js'
 		}
 
 		eraseAllCookies() {
-      console.log('hola')
       document.cookie.replace(
         /(?<=^|;).+?(?=\=|;|$)/g,
         name => win.location.hostname
@@ -268,6 +229,33 @@ import locales from './locales.js'
 				this.manageCookiesShown = true;
 			}
 		}
+
+    sendGoogleTagManagerEvents(){
+      
+      let eventsList = {
+        'cookieConsentUpdate': true,
+        'cookieConsentAdStorage':  this.cookies[this.targetingCookies] ? true : false,
+        'cookieConsentAnalyticsStorage': this.cookies[this.trackingCookies] ? true : false,
+        'cookieConsentFunctionalityStorage': this.cookies[this.functionalityCookies] ? true : false,
+        'cookieConsentPersonalizationStorage': true,
+        'cookieConsentSecurityStorage': true,
+      }
+
+      for (let event in eventsList) {
+        if (eventsList[event]) win.setTimeout(() => {win.dataLayer.push ({'event': event}) }, 500);
+      }
+    }
+
+    updateGoogleTagManagerConsentMode () {
+
+      gtag('consent', 'update', {
+        'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
+        'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
+        'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted'        
+      }); 
+    }
 
 		replace(text, data) {
 			for(let i in data) {
