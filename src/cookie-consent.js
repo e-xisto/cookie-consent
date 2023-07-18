@@ -46,8 +46,8 @@ import locales from './locales.js'
 			this.initCookieIndex(this.trackingCookies);
 			this.initCookieIndex(this.targetingCookies);
 
-			this.categories[this.strictlyNecessaryCookies].mandatory = true; 
-      this.loadCookies()   
+			this.categories[this.strictlyNecessaryCookies].mandatory = true;
+      this.loadCookies()
 		}
 
 		initCookieIndex(cookieName) {
@@ -130,14 +130,14 @@ import locales from './locales.js'
 
 			if (string) {
         this.cookies = JSON.parse(string);
-        
+
         gtag('consent', 'update', {
           'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
           'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
           'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
           'personalization_storage': 'granted',
-          'security_storage': 'granted',        
-        }); 
+          'security_storage': 'granted',
+        });
       }
 			else {
         this.cookies = {};
@@ -147,14 +147,14 @@ import locales from './locales.js'
           'analytics_storage': 'denied',
           'functionality_storage': 'granted',
           'personalization_storage': 'granted',
-          'security_storage': 'granted',        
-        });          
+          'security_storage': 'granted',
+        });
       }
 		}
 
 		acceptCookies(cookies) {
       let stringify = JSON.stringify(cookies);
-      
+
       this.eraseAllCookies();
 			this.setCookie('cookie_consent', stringify);
 			if (win.localStorage) win.localStorage.setItem('cookie_consent', stringify);
@@ -180,8 +180,8 @@ import locales from './locales.js'
         'analytics_storage': 'granted',
         'functionality_storage': 'granted',
         'personalization_storage': 'granted',
-        'security_storage': 'granted',        
-      });        
+        'security_storage': 'granted',
+      });
 		}
 
 		rejectAll() {
@@ -198,8 +198,8 @@ import locales from './locales.js'
         'analytics_storage': 'denied',
         'functionality_storage': 'denied',
         'personalization_storage': 'granted',
-        'security_storage': 'granted',        
-      });        
+        'security_storage': 'granted',
+      });
 		}
 
 		acceptSelection() {
@@ -218,8 +218,8 @@ import locales from './locales.js'
         'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
         'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
         'personalization_storage': 'granted',
-        'security_storage': 'granted',        
-      });      
+        'security_storage': 'granted',
+      });
 		}
 
 		setCookie(name, value, days) {
@@ -467,7 +467,7 @@ import locales from './locales.js'
 							<div class="cookie-consent-btn" id="cookie-consent-btn">
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-reject-all" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.rejectAll()">${options.text.btnRejectAll}</button>
-								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 							</div>
 							<div id="cookie-manage-cookies" style="display: none;">
 								<div class="cookie-consent-cookie-consent-manage">
@@ -528,7 +528,7 @@ import locales from './locales.js'
 									</div>
 									<div class="cookie-consent-btn">
 										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
-										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 									</div>
 								</div>
 							</div>
