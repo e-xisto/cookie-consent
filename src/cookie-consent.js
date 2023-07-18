@@ -46,8 +46,8 @@ import locales from './locales.js'
 			this.initCookieIndex(this.trackingCookies);
 			this.initCookieIndex(this.targetingCookies); 
 
-			this.categories[this.strictlyNecessaryCookies].mandatory = true; 
-      this.loadCookies()   
+			this.categories[this.strictlyNecessaryCookies].mandatory = true;
+      this.loadCookies()
 		}
 
 		initCookieIndex(cookieName) {
@@ -138,7 +138,7 @@ import locales from './locales.js'
 
 		acceptCookies(cookies) {
       let stringify = JSON.stringify(cookies);
-      
+
       this.eraseAllCookies();
 			this.setCookie('cookie_consent', stringify);
 			if (win.localStorage) win.localStorage.setItem('cookie_consent', stringify);
@@ -455,7 +455,7 @@ import locales from './locales.js'
 							<div class="cookie-consent-btn" id="cookie-consent-btn">
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-reject-all" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.rejectAll()">${options.text.btnRejectAll}</button>
-								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 							</div>
 							<div id="cookie-manage-cookies" style="display: none;">
 								<div class="cookie-consent-cookie-consent-manage">
@@ -516,7 +516,7 @@ import locales from './locales.js'
 									</div>
 									<div class="cookie-consent-btn">
 										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
-										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBackground};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 									</div>
 								</div>
 							</div>
