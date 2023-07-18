@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2023/07/18
+
+### Added
+
+- Possibility of customize border color for primary button
+
+
 ## [2.0.3] - 2023/06/20
 
 ### Fixed
