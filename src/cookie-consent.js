@@ -210,13 +210,18 @@ import locales from './locales.js'
 		}
 
 		eraseAllCookies() {
-      document.cookie.replace(
-        /(?<=^|;).+?(?=\=|;|$)/g,
-        name => win.location.hostname
-          .split(/\.(?=[^\.]+\.)/)
-          .reduceRight((acc, val, i, arr) => i ? arr[i]='.'+val+acc : (arr[i]='', arr), '')
-          .map(domain => document.cookie=`${name}=;max-age=0;path=/;domain=${domain}`)
-      )
+      const currentDomain = window.location.hostname;
+      const domainParts = currentDomain.split('.');
+      const topLevelDomain = domainParts.slice(-2).join('.');
+    
+      const cookies = document.cookie.split(';');
+    
+      cookies.forEach((cookie) => {
+        const cookieName = cookie.trim().split('=')[0];
+        const cookieDomain = topLevelDomain.startsWith('.') ? topLevelDomain : `.${topLevelDomain}`;
+    
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${cookieDomain}`;
+      });      
 		}
 
 		manageCookies() {
