@@ -210,18 +210,23 @@ import locales from './locales.js'
 		}
 
 		eraseAllCookies() {
+      const cookies = document.cookie.split(';');
       const currentDomain = window.location.hostname;
       const domainParts = currentDomain.split('.');
       const topLevelDomain = domainParts.slice(-2).join('.');
-    
-      const cookies = document.cookie.split(';');
-    
+
       cookies.forEach((cookie) => {
         const cookieName = cookie.trim().split('=')[0];
         const cookieDomain = topLevelDomain.startsWith('.') ? topLevelDomain : `.${topLevelDomain}`;
-    
-        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${cookieDomain}`;
-      });      
+        const cookiePath = "/"; // Set the path to the root by default
+
+        const cookiePathParts = cookie.trim().split('=');
+        if (cookiePathParts.length > 1 && cookiePathParts[0].trim() === "path") {
+          cookiePath = cookiePathParts[1].trim();
+        }
+
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${cookiePath}; domain=${cookieDomain}`;
+      });    
 		}
 
 		manageCookies() {
