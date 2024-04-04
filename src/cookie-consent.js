@@ -288,7 +288,7 @@ import locales from './locales.js'
 					top: 0;
 					left: 0;
 					width: 100vw;
-					height: 100%;
+					height: 100dvh;
 					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.32);
 					z-index: 9999999999;
 				}
@@ -526,7 +526,7 @@ import locales from './locales.js'
 									</div>
 									<div class="cookie-consent-btn">
 										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
-										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all-config" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 									</div>
 								</div>
 							</div>
