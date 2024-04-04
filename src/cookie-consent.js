@@ -282,27 +282,26 @@ import locales from './locales.js'
 			<style>
 
 				.cookie-consent {
-					background-color: rgba(0, 0, 0, 0.8);
-					font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Segoe UI Symbol";
 					position: fixed;
-					top: 0;
-					left: 0;
-					width: 100vw;
-					height: 100dvh;
-					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.32);
+					top: 50%;
+					left: 50%;       
+          transform: translate(-50%, -50%);
+					font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Segoe UI Symbol";
+					width: 100%;
+          max-width: 800px;
+					height: auto;
+          max-height: calc(100dvh - 48px);       
 					z-index: 9999999999;
 				}
 
 				.cookie-consent-modal {
 					background-color: ${options.color.modalBackground};
-					width: 800px;
-					position: absolute;
-					left: 50%;
-					top: 50%;
-					transform: translate(-50%, -50%);
-					max-height: 80%;
+					width: 100%;
+          max-height: calc(100dvh - 48px);
 					overflow-y: auto;
 					border-radius: 6px;
+          border: 1px solid #ccc;
+          box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.8);
 				}
 
 				.cookie-consent-intro { padding: 25px 30px; }
@@ -415,9 +414,13 @@ import locales from './locales.js'
 						line-height: 20px;
 					}
 
+          .cookie-consent {
+						max-width: calc(100% - 48px);
+            max-height: calc(100dvh - 48px);
+					}
+
 					.cookie-consent-modal {
-						width: 90%;
-						max-height: calc(100% - 25px);
+						max-height: calc(100dvh - 48px);
 					}
 
 					.cookie-consent-intro { padding: 15px; }

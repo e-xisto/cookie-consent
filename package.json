@@ -1,6 +1,6 @@
 {
   "name": "@e-xisto/cookie-consent",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "",
   "main": "src/cookie-consent.js",
   "scripts": {
