@@ -245,6 +245,8 @@ import locales from './locales.js'
       let eventsList = {
         'cookieConsentUpdate': true,
         'cookieConsentAdStorage':  this.cookies[this.targetingCookies] ? true : false,
+        'cookieConsentAdUserData':  this.cookies[this.targetingCookies] ? true : false,
+        'cookieConsentAdPersonalization':  this.cookies[this.targetingCookies] ? true : false,
         'cookieConsentAnalyticsStorage': this.cookies[this.trackingCookies] ? true : false,
         'cookieConsentFunctionalityStorage': this.cookies[this.functionalityCookies] ? true : false,
         'cookieConsentPersonalizationStorage': true,
@@ -260,6 +262,8 @@ import locales from './locales.js'
 
       gtag('consent', 'update', {
         'ad_storage': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
+        'ad_user_data': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
+        'ad_personalization': this.cookies[this.targetingCookies] ? 'granted' : 'denied',
         'analytics_storage': this.cookies[this.trackingCookies] ? 'granted' : 'denied',
         'functionality_storage': this.cookies[this.functionalityCookies] ? 'granted' : 'denied',
         'personalization_storage': 'granted',
