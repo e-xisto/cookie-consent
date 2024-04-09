@@ -1,0 +1,245 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2024-04-09 19:27:37",
+    "containerVersion": {
+        "path": "accounts/4269524010/containers/182364645/versions/0",
+        "accountId": "4269524010",
+        "containerId": "182364645",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/4269524010/containers/182364645",
+            "accountId": "4269524010",
+            "containerId": "182364645",
+            "name": "Cookie Consent Test",
+            "publicId": "GTM-N4LMHQ6S",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1712690526941",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/4269524010/containers/182364645/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": false,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": false
+            },
+            "tagIds": [
+                "GTM-N4LMHQ6S"
+            ]
+        },
+        "trigger": [
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "3",
+                "name": "Cookie Consent Analytics Storage",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentAnalyticsStorage"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555115"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "4",
+                "name": "Cookie Consent Personalization Storage",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentPersonalizationStorage"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555116"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "5",
+                "name": "Cookie Consent Update",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentUpdate"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555116"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "6",
+                "name": "Cookie Consent Ad Storage",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentAdStorage"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555117"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "7",
+                "name": "Cookie Consent Functionality Storage",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentFunctionalityStorage"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555117"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "8",
+                "name": "Cookie Consent Security Storage",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentSecurityStorage"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690555117"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "9",
+                "name": "Cookie Consent Ad User Data",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentAdUserData"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690739015"
+            },
+            {
+                "accountId": "4269524010",
+                "containerId": "182364645",
+                "triggerId": "10",
+                "name": "Cookie Consent Ad Personalization",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "cookieConsentAdPersonalization"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1712690788304"
+            }
+        ],
+        "fingerprint": "1712690857967",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/4269524010/containers/182364645/versions/0?apiLink=version"
+    }
+}

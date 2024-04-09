@@ -1,6 +1,8 @@
 # Cookie consent
 
 
+Plantilla Google Tag Manager: [GTM-Cookie-Conset-Events-Template.json](./docs/GTM-Cookie-Conset-Events-Template.json)
+
 //TODO documentation
 
 ```html
