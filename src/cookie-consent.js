@@ -5,6 +5,16 @@ import locales from './locales.js'
   win.dataLayer = win.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'functionality_storage': 'denied',
+    'personalization_storage': 'granted',
+    'security_storage': 'granted'        
+  });   
+
 	class CookieConsent {
 
 		strictlyNecessaryCookies = 'strictlyNecessaryCookies';
@@ -256,7 +266,7 @@ import locales from './locales.js'
       for (let event in eventsList) {
         if (eventsList[event]) win.setTimeout(() => {win.dataLayer.push ({'event': event}) }, 500);
       }
-    }
+    } 
 
     updateGoogleTagManagerConsentMode () {
 
