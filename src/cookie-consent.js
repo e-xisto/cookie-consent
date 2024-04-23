@@ -554,9 +554,6 @@ import locales from './locales.js'
 		}
 	}
 
-
-
-
 	win.CookieConsent = new CookieConsent();
 
 
