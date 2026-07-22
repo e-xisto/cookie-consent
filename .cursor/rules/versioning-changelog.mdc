@@ -1,0 +1,64 @@
+---
+description: Versionado SemVer y CHANGELOG automático al completar cambios
+alwaysApply: true
+---
+
+# Versionado y changelog
+
+Al terminar un cambio de código con impacto en el paquete (feature, fix, breaking, etc.), actualiza la versión y el changelog **sin que el usuario tenga que pedirlo**.
+
+## Archivos a tocar
+
+1. `package.json` → campo `version`
+2. `package-lock.json` → `version` del paquete raíz (mismo valor)
+3. `CHANGELOG.md` → nueva entrada al inicio (debajo del preámbulo Keep a Changelog). Debe ser en inglés.
+
+No crear commits salvo que el usuario lo pida.
+
+## SemVer (cómo elegir el bump)
+
+Partir de la versión actual en `package.json`.
+
+| Bump | Cuándo |
+|---|---|
+| **MAJOR** (`X.0.0`) | Breaking change de API pública, o cambio de comportamiento que obliga a adaptar integraciones de forma incompatible |
+| **MINOR** (`x.Y.0`) | Funcionalidad nueva o cambio de comportamiento relevante pero compatible (p. ej. nuevos defaults de Consent Mode, eventos GTM distintos en flujos esperados) |
+| **PATCH** (`x.y.Z`) | Bugfix o ajuste menor sin cambio de contrato ni de comportamiento observable para integradores |
+
+Criterio práctico de este repo:
+
+- Cambio solo de API (`config`, `checkCookie`, categorías, firma pública) incompatible → **MAJOR**
+- Nuevo comportamiento / capacidad (Consent Mode, eventos, opciones) sin romper la API → **MINOR**
+- Corrección de bug sin alterar el contrato esperado → **PATCH**
+- En duda entre patch y minor por un cambio de comportamiento en GTM/consent → preferir **MINOR**
+
+## Formato del CHANGELOG
+
+Seguir [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Fecha: `YYYY/MM/DD` (como en entradas existentes).
+
+```markdown
+## [X.Y.Z] - YYYY/MM/DD
+
+### Added
+- ...
+
+### Changed
+- ...
+
+### Fixed
+- ...
+
+### Removed
+- ...
+```
+
+Usar solo las secciones que apliquen. Bullets concisos, en inglés (como el resto del archivo), centrados en el *qué/por qué* útil para quien consume el paquete.
+
+## Flujo obligatorio al cerrar un cambio
+
+1. Clasificar el cambio (major / minor / patch).
+2. Subir `version` en `package.json` y `package-lock.json`.
+3. Añadir la entrada correspondiente en `CHANGELOG.md`.
+4. En la respuesta final, mencionar la nueva versión y un resumen de 1 línea del bump.
+
+Si el cambio es solo docs, reglas Cursor, o archivos sin impacto en el paquete publicado, **no** bumpear versión.

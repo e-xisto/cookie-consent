@@ -5,6 +5,8 @@ import locales from './locales.js'
   win.dataLayer = win.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
 
+  // Google Consent Mode v2 — defaults must run before any Google tags (gtag/GTM)
+  // Docs: https://developers.google.com/tag-platform/security/guides/consent
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
@@ -12,8 +14,12 @@ import locales from './locales.js'
     'analytics_storage': 'denied',
     'functionality_storage': 'denied',
     'personalization_storage': 'granted',
-    'security_storage': 'granted'        
-  });   
+    'security_storage': 'granted',
+    'wait_for_update': 500
+  });
+
+  // Redact ad click identifiers when ad_storage is denied (Consent Mode advanced)
+  gtag('set', 'ads_data_redaction', true);
 
 	class CookieConsent {
 
@@ -139,11 +145,15 @@ import locales from './locales.js'
 				if (!string) string = win.localStorage.getItem('cookie_consent');
 			}
 
-			if (string) this.cookies = JSON.parse(string);
-			else this.cookies = {};        
-      
-      this.updateGoogleTagManagerConsentMode();
-      this.sendGoogleTagManagerEvents();      
+			if (string) {
+				this.cookies = JSON.parse(string);
+				// Restore prior choices on subsequent pages (Consent Mode does not persist itself)
+				this.updateGoogleTagManagerConsentMode();
+				this.sendGoogleTagManagerEvents();
+			} else {
+				this.cookies = {};
+				// First visit: keep gtag('consent','default',...) only — update after user interaction
+			}
 		}
 
 		acceptCookies(cookies) {
