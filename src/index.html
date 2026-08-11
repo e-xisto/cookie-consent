@@ -19,12 +19,16 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       margin: 0;
       font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #f3f4f6;
       color: #111827;
-      min-height: 100vh;
     }
 
     .pg-header {
@@ -34,6 +38,7 @@
       display: flex;
       align-items: center;
       gap: 16px;
+      flex-shrink: 0;
     }
 
     .pg-header h1 {
@@ -56,20 +61,27 @@
 
     .pg-layout {
       display: flex;
-      min-height: calc(100vh - 65px);
+      height: calc(100vh - 65px);
+      height: calc(100dvh - 65px);
+      overflow: hidden;
     }
 
     /* ── Sidebar ── */
     .pg-sidebar {
-      width: 300px;
+      width: 360px;
       flex-shrink: 0;
       background: #fff;
       border-right: 1px solid #e5e7eb;
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      padding: 20px 20px 32px;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
+
+    .pg-sidebar > * + * {
+      margin-top: 16px;
+    }
+
 
     .pg-section-title {
       font-size: 11px;
@@ -78,6 +90,18 @@
       text-transform: uppercase;
       color: #6b7280;
       margin: 0 0 12px 0;
+    }
+
+    .pg-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .pg-section-header .pg-section-title {
+      margin: 0;
     }
 
     .pg-field {
@@ -92,14 +116,20 @@
       color: #374151;
     }
 
-    .pg-field select {
+    .pg-field select,
+    .pg-field input[type="text"],
+    .pg-field textarea {
       width: 100%;
       padding: 8px 10px;
       border: 1px solid #d1d5db;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 13px;
       color: #111827;
       background: #fff;
+      font-family: inherit;
+    }
+
+    .pg-field select {
       cursor: pointer;
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -108,7 +138,15 @@
       padding-right: 32px;
     }
 
-    .pg-field select:focus {
+    .pg-field textarea {
+      min-height: 64px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .pg-field select:focus,
+    .pg-field input:focus,
+    .pg-field textarea:focus {
       outline: none;
       border-color: #059669;
       box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
@@ -122,11 +160,130 @@
       border-radius: 6px;
       padding: 14px 16px;
       font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
-      font-size: 12px;
-      line-height: 1.6;
+      font-size: 11px;
+      line-height: 1.55;
       color: #374151;
       overflow-x: auto;
       white-space: pre;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .pg-details {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: hidden;
+    }
+
+    .pg-details > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      user-select: none;
+      background: #fff;
+    }
+
+    .pg-details > summary::-webkit-details-marker { display: none; }
+
+    .pg-details > summary::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid #9ca3af;
+      border-bottom: 2px solid #9ca3af;
+      transform: rotate(45deg);
+      transition: transform 0.15s;
+      flex-shrink: 0;
+      margin-top: -4px;
+    }
+
+    .pg-details[open] > summary::after {
+      transform: rotate(225deg);
+      margin-top: 2px;
+    }
+
+    .pg-details-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px solid #e5e7eb;
+      background: #fff;
+    }
+
+
+    .pg-reset-btn {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pg-reset-btn:hover {
+      border-color: #059669;
+      color: #059669;
+      background: #ecfdf5;
+    }
+
+    .pg-color-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pg-color-row label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    }
+
+    .pg-color-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pg-color-controls input[type="color"] {
+      width: 32px;
+      height: 28px;
+      padding: 0;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .pg-color-controls input[type="text"] {
+      width: 88px;
+      padding: 5px 7px;
+      border: 1px solid #d1d5db;
+      border-radius: 5px;
+      font-size: 12px;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      color: #111827;
+    }
+
+    .pg-color-controls input[type="text"]:focus {
+      outline: none;
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
     }
 
     /* ── Canvas ── */
@@ -139,6 +296,9 @@
       justify-content: center;
       gap: 24px;
       position: relative;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .pg-canvas-hint {
@@ -175,7 +335,7 @@
       padding: 6px 10px;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11px;
       color: #6b7280;
       background: #f9fafb;
       cursor: pointer;
@@ -223,8 +383,29 @@
 
     .pg-position-cell svg { pointer-events: none; }
 
+    /* ── Check label ── */
+    .pg-check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      user-select: none;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    }
+
+    .pg-check-label input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: #059669;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .pg-position-label {
-      margin: 8px 0 0;
+      margin: 8px 0 8px;
       text-align: center;
       font-size: 12px;
       font-weight: 600;
@@ -234,9 +415,16 @@
     }
 
     @media (max-width: 768px) {
-      .pg-layout { flex-direction: column; }
-      .pg-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e5e7eb; }
-      .pg-canvas { padding: 24px 16px; }
+      html, body { height: auto; overflow: auto; }
+      .pg-layout { flex-direction: column; height: auto; overflow: visible; }
+      .pg-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .pg-canvas { padding: 24px 16px; min-height: 40vh; }
     }
   </style>
 </head>
@@ -262,14 +450,15 @@
       <select id="locale-select"></select>
     </div>
 
-    <hr class="pg-divider">
+    <div class="pg-field">
+      <label for="cookies-policy-link">cookiesPolicyLink</label>
+      <input type="text" id="cookies-policy-link" placeholder="https://example.com/cookies" value="#">
+    </div>
 
     <div>
       <p class="pg-section-title">Layout</p>
       <div class="pg-layout-grid" id="layout-pills"></div>
     </div>
-
-    <hr class="pg-divider">
 
     <div>
       <p class="pg-section-title">Position</p>
@@ -277,7 +466,18 @@
       <p class="pg-position-label" id="position-label">middle center</p>
     </div>
 
-    <hr class="pg-divider">
+    <label class="pg-check-label">
+      <input type="checkbox" id="disable-page-interaction">
+      disablePageInteraction
+    </label>
+
+    <details class="pg-details pg-details-colors">
+      <summary>
+        <span>Colores</span>
+        <button type="button" class="pg-reset-btn" id="reset-colors" onclick="event.preventDefault()">Reset</button>
+      </summary>
+      <div class="pg-details-body" id="color-fields"></div>
+    </details>
 
     <div>
       <p class="pg-section-title">Configuración actual</p>
@@ -293,7 +493,7 @@
         <rect x="3" y="3" width="18" height="18" rx="2"/>
         <path d="M3 9h18M9 21V9"/>
       </svg>
-      <p><strong>Selecciona layout y posición</strong></p>
+      <p><strong>Edita la configuración</strong></p>
       <p>para ver el banner en tiempo real</p>
     </div>
   </main>
@@ -302,10 +502,33 @@
 
 <script>
 
+  // ── Defaults ──────────────────────────────────────────────────────────────
+  var DEFAULT_COLORS = {
+    textColor: '#6B7280',
+    titleColor: '#000000',
+    linkColor: '#000000',
+    modalBackground: '#ffffff',
+    modalBorder: '#ffffff',
+    btnPrimaryText: '#ffffff',
+    btnPrimaryBackground: '#059669',
+    btnPrimaryBorder: '#059669',
+    btnSecondaryText: '#6B7280',
+    btnSecondaryBackground: '#ffffff',
+    btnSecondaryBorder: '#D1D5DB',
+    switchColor: '#008000',
+    switchBackground: '#D1D5DB',
+    switchActiveBackground: '#059669',
+  };
+
   // ── State ─────────────────────────────────────────────────────────────────
-  var currentLocale   = 'es';
-  var currentLayout   = 'box wide';
-  var currentPosition = 'middle center';
+  var state = {
+    locale: 'es',
+    layout: 'box wide',
+    position: 'middle center',
+    cookiesPolicyLink: '#',
+    color: Object.assign({}, DEFAULT_COLORS),
+    disablePageInteraction: false,
+  };
 
   var locales = [
     { code: 'en', label: 'English' },
@@ -321,7 +544,7 @@
   var layouts = [
     'box', 'box wide',
     'cloud',
-    'bar'
+    'bar',
   ];
 
   var positions = [
@@ -330,34 +553,86 @@
     'bottom left', 'bottom center', 'bottom right',
   ];
 
+  // Named CSS colors used as library defaults → hex for color inputs
+  function toHex(value) {
+    if (!value) return '#000000';
+    if (value.charAt(0) === '#') {
+      if (value.length === 4) {
+        return '#' + value[1] + value[1] + value[2] + value[2] + value[3] + value[3];
+      }
+      return value.toLowerCase();
+    }
+    var map = { black: '#000000', white: '#ffffff', green: '#008000' };
+    return map[value.toLowerCase()] || value;
+  }
+
+  function escapeJsString(str) {
+    return String(str)
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r');
+  }
+
+  function buildConfig() {
+    return {
+      locale: state.locale,
+      layout: state.layout,
+      position: state.position,
+      cookiesPolicyLink: state.cookiesPolicyLink,
+      disablePageInteraction: state.disablePageInteraction,
+      color: Object.assign({}, state.color),
+    };
+  }
+
+  function refresh() {
+    updateConfigPreview();
+    previewBanner();
+  }
+
   // ── Build locale selector ─────────────────────────────────────────────────
   var localeSelect = document.getElementById('locale-select');
   locales.forEach(function(locale) {
     var option = document.createElement('option');
     option.value = locale.code;
     option.textContent = locale.label;
-    if (locale.code === currentLocale) option.selected = true;
+    if (locale.code === state.locale) option.selected = true;
     localeSelect.appendChild(option);
   });
 
   localeSelect.onchange = function() {
-    currentLocale = localeSelect.value;
-    updateConfigPreview();
-    previewBanner();
+    state.locale = localeSelect.value;
+    refresh();
+  };
+
+  // ── cookiesPolicyLink ─────────────────────────────────────────────────────
+  var linkInput = document.getElementById('cookies-policy-link');
+  linkInput.value = state.cookiesPolicyLink;
+  linkInput.oninput = function() {
+    state.cookiesPolicyLink = linkInput.value;
+    refresh();
+  };
+
+  // ── disablePageInteraction ────────────────────────────────────────────────
+  var disablePageInteractionCheckbox = document.getElementById('disable-page-interaction');
+  disablePageInteractionCheckbox.checked = state.disablePageInteraction;
+  disablePageInteractionCheckbox.onchange = function() {
+    state.disablePageInteraction = disablePageInteractionCheckbox.checked;
+    refresh();
   };
 
   // ── Build layout pills ────────────────────────────────────────────────────
   var layoutContainer = document.getElementById('layout-pills');
   layouts.forEach(function(l) {
     var el = document.createElement('button');
-    el.className = 'pg-layout-pill' + (l === currentLayout ? ' active' : '');
+    el.type = 'button';
+    el.className = 'pg-layout-pill' + (l === state.layout ? ' active' : '');
     el.textContent = l;
     el.onclick = function() {
-      currentLayout = l;
+      state.layout = l;
       document.querySelectorAll('.pg-layout-pill').forEach(function(p) { p.classList.remove('active'); });
       el.classList.add('active');
-      updateConfigPreview();
-      previewBanner();
+      refresh();
     };
     layoutContainer.appendChild(el);
   });
@@ -379,45 +654,129 @@
 
   positions.forEach(function(p) {
     var el = document.createElement('button');
-    el.className = 'pg-position-cell' + (p === currentPosition ? ' active' : '');
+    el.type = 'button';
+    el.className = 'pg-position-cell' + (p === state.position ? ' active' : '');
     el.title = p;
     el.innerHTML = posIcons[p] || p;
     el.onclick = function() {
-      currentPosition = p;
+      state.position = p;
       document.querySelectorAll('.pg-position-cell').forEach(function(c) { c.classList.remove('active'); });
       el.classList.add('active');
       document.getElementById('position-label').textContent = p;
-      updateConfigPreview();
-      previewBanner();
+      refresh();
     };
     positionContainer.appendChild(el);
   });
 
-  // ── Config preview ────────────────────────────────────────────────────────
-  function updateConfigPreview() {
-    document.getElementById('config-preview').textContent =
-      'CookieConsent.config({\n' +
-      '  locale: \'' + currentLocale + '\',\n' +
-      '  layout: \'' + currentLayout + '\',\n' +
-      '  position: \'' + currentPosition + '\',\n' +
-      '})';
+  // ── Color fields ──────────────────────────────────────────────────────────
+  var colorFields = document.getElementById('color-fields');
+
+  function setColor(key, value) {
+    var hex = toHex(value);
+    state.color[key] = hex;
+    var picker = document.getElementById('color-picker-' + key);
+    var text = document.getElementById('color-text-' + key);
+    if (picker) picker.value = hex;
+    if (text) text.value = hex;
   }
 
-  updateConfigPreview();
+  Object.keys(DEFAULT_COLORS).forEach(function(key) {
+    var row = document.createElement('div');
+    row.className = 'pg-color-row';
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'color-text-' + key);
+    label.textContent = key;
+
+    var controls = document.createElement('div');
+    controls.className = 'pg-color-controls';
+
+    var picker = document.createElement('input');
+    picker.type = 'color';
+    picker.id = 'color-picker-' + key;
+    picker.value = toHex(state.color[key]);
+
+    var text = document.createElement('input');
+    text.type = 'text';
+    text.id = 'color-text-' + key;
+    text.value = toHex(state.color[key]);
+    text.spellcheck = false;
+
+    picker.oninput = function() {
+      setColor(key, picker.value);
+      refresh();
+    };
+
+    text.onchange = function() {
+      setColor(key, text.value.trim() || DEFAULT_COLORS[key]);
+      refresh();
+    };
+
+    text.onkeydown = function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        text.blur();
+      }
+    };
+
+    controls.appendChild(picker);
+    controls.appendChild(text);
+    row.appendChild(label);
+    row.appendChild(controls);
+    colorFields.appendChild(row);
+  });
+
+  document.getElementById('reset-colors').onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    state.color = Object.assign({}, DEFAULT_COLORS);
+    Object.keys(DEFAULT_COLORS).forEach(function(key) {
+      setColor(key, DEFAULT_COLORS[key]);
+    });
+    refresh();
+  };
+
+  // ── Config preview ────────────────────────────────────────────────────────
+  function formatObject(obj, indent) {
+    var pad = Array(indent + 1).join('  ');
+    var padInner = Array(indent + 2).join('  ');
+    var keys = Object.keys(obj);
+    if (!keys.length) return '{}';
+
+    var lines = ['{'];
+    keys.forEach(function(key, i) {
+      var value = obj[key];
+      var comma = i < keys.length - 1 ? ',' : '';
+      if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+        lines.push(padInner + key + ': ' + formatObject(value, indent + 1) + comma);
+      } else if (typeof value === 'boolean') {
+        lines.push(padInner + key + ': ' + value + comma);
+      } else {
+        lines.push(padInner + key + ": '" + escapeJsString(value) + "'" + comma);
+      }
+    });
+    lines.push(pad + '}');
+    return lines.join('\n');
+  }
+
+  function updateConfigPreview() {
+    var config = buildConfig();
+    document.getElementById('config-preview').textContent =
+      'CookieConsent.config(' + formatObject(config, 0) + ');';
+  }
 
   // ── Preview ───────────────────────────────────────────────────────────────
   function previewBanner() {
     CookieConsent.closePopup();
     localStorage.removeItem('cookie_consent');
-    CookieConsent.config({
-      locale: currentLocale,
-      layout: currentLayout,
-      position: currentPosition,
-    });
+    CookieConsent.config(buildConfig());
+    // Keep playground chrome layout intact regardless of disablePageInteraction
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
   }
 
-  // ── Auto-preview on load ──────────────────────────────────────────────────
-  previewBanner();
+  // ── Init ──────────────────────────────────────────────────────────────────
+  refresh();
 
   // ── checkCookie examples ──────────────────────────────────────────────────
   CookieConsent.checkCookie('strictlyNecessaryCookies', function() {
