@@ -119,8 +119,7 @@ import locales from './locales.js'
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
-				const isInline = (this.options.layout || '').includes('inline');
-				if (!isInline && this.options.disablePageInteraction) {
+				if (this.options.disablePageInteraction) {
 					this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
 					document.body.style.overflow = "hidden";
 				}
@@ -288,8 +287,7 @@ import locales from './locales.js'
 				document.getElementById('cookie-manage-cookies').style.display = 'block';
 				document.getElementById('cookie-consent-btn').style.display = 'none';
 				const layout = (this.options.layout || '').toLowerCase();
-				const layoutBase = layout.replace(' inline', '').trim();
-				if (layoutBase !== 'bar') document.getElementById('cookie-popup-cookies').classList.add('cc-manage-centered');
+				if (layout !== 'bar') document.getElementById('cookie-popup-cookies').classList.add('cc-manage-centered');
 				document.getElementById('cookie-popup-cookies').classList.add('cc-expanded');
 				this.manageCookiesShown = true;
 			}
@@ -367,10 +365,8 @@ import locales from './locales.js'
 		render() {
 			var options = this.options;
 			const layout = (options.layout || 'box wide').toLowerCase();
-			const layoutBase = layout.replace(' inline', '').trim();
 			const posVert = (options.position || 'middle center').split(' ')[0];
 			const positionStyle = this.getPositionStyle();
-			const isBar = layoutBase === 'bar';
 			const barShadow = posVert === 'bottom'
 				? '0 -4px 12px rgba(0,0,0,0.1)'
 				: '0 4px 12px rgba(0,0,0,0.1)';
@@ -781,7 +777,7 @@ import locales from './locales.js'
 			</style>
 
 
-				<div class="cookie-consent" id="cookie-popup-cookies" data-layout="${layoutBase}" style="${positionStyle} color: ${options.color.textColor};">
+				<div class="cookie-consent" id="cookie-popup-cookies" data-layout="${layout}" style="${positionStyle} color: ${options.color.textColor};">
 					<div class="cookie-consent-modal" style="border: 1px solid ${options.color.modalBorder}; background-color: ${options.color.modalBackground};">
 						<div class="cookie-consent-intro">
 							<div class="cookie-consent-intro-content">

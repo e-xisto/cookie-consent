@@ -9,11 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `disablePageInteraction` config option (`boolean`, default `false`): when `true`, the modal blocks page scroll by setting `body { overflow: hidden }` while the banner is visible. Previously this was always applied for non-inline layouts.
+- `disablePageInteraction` config option (`boolean`, default `false`): when `true`, the modal blocks page scroll by setting `body { overflow: hidden }` while the banner is visible.
 
 ### Changed
 
 - **Breaking:** page scroll is no longer blocked by default. Existing integrations that relied on the implicit scroll-lock must explicitly set `disablePageInteraction: true`.
+
+### Removed
+
+- Residual `inline` layout suffix handling (`box inline`, `cloud inline`, `bar inline`). Scroll locking is controlled only by `disablePageInteraction`.
 
 ---
 
@@ -32,9 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `layout` config option to control the banner shape: `box`, `box wide` (default), `box inline`, `cloud`, `cloud inline`, `bar`, `bar inline`
+- `layout` config option to control the banner shape: `box`, `box wide` (default), `cloud`, `bar`
 - `position` config option to place the banner in any of 9 screen positions: `top/middle/bottom` × `left/center/right`
-- `inline` layout variants do not block page scroll (`overflow: hidden` not applied to `body`)
 - `bar` layout renders a full-width horizontal strip; auto-adapts shadow direction based on `top`/`bottom` position
 - Interactive playground (`src/index.html`) with live layout/position picker and config code preview
 
