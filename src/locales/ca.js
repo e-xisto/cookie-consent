@@ -6,6 +6,7 @@ export default {
 	btnAcceptAll: "Accepta totes les cookies",
 	btnManageCookies: "Gestiona les cookies",
 	btnAcceptSelection: "Accepta les cookies seleccionades",
+	alwaysEnabled: "Sempre actives",
 	privacyTitle: "La vostra privacitat és important per nosaltres",
 	privacyTextDefinition: "Les cookies són uns arxius de text molt petits que es guarden al vostre ordinador quan visiteu un lloc web. Fem servir cookies per una varietat de finalitats i millorar la vostra experiència al nostre lloc web (per exemple, per recordar les vostres credencials).",
 	privacyTextInstructions: "Pot canviar les vostres preferències i rebutjar l’emmagatzematge al vostre ordinador de certs tipus de cookies mentres navega pel nostre. Pot eliminar qualsevol cookie ja emmagatzemada al vostre ordinador, però tingui en compte que eliminar cookies pot impedir que faci servir parts del nostre lloc web.",

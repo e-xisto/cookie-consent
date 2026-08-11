@@ -35,7 +35,7 @@ import locales from './locales.js'
 
 		options = {
 			text: locales.en,
-			color: { //TODO default colors
+			color: {
 				textColor: "#6B7280",
 				titleColor: "black",
 				linkColor: "black",
@@ -43,6 +43,7 @@ import locales from './locales.js'
 				modalBorder: "white",
 				btnPrimaryText: "white",
 				btnPrimaryBackground: "#059669",
+				btnPrimaryBorder: "#059669",
 				btnSecondaryText: "#6B7280",
 				btnSecondaryBackground: "white",
 				btnSecondaryBorder: "#D1D5DB",
@@ -51,7 +52,9 @@ import locales from './locales.js'
 				switchActiveBackground: "#059669"
 			},
 			cookiesPolicyLink: "",
-			locale: 'en'
+			locale: 'en',
+			layout: 'box wide',
+			position: 'middle center',
 		};
 
 		manageCookiesShown = false;
@@ -104,14 +107,19 @@ import locales from './locales.js'
 				this.options.color[i] = options.color[i];
 			}
 			if (options.cookiesPolicyLink) this.options.cookiesPolicyLink = options.cookiesPolicyLink;
+			if (options.layout !== undefined) this.options.layout = options.layout;
+			if (options.position !== undefined) this.options.position = options.position;
 		}
 
 		openPopup() {
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
-				this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
-				document.body.style.overflow = "hidden";
+				const isInline = (this.options.layout || '').includes('inline');
+				if (!isInline) {
+					this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
+					document.body.style.overflow = "hidden";
+				}
 			}
 			this.initial = false;
 		}
@@ -249,13 +257,33 @@ import locales from './locales.js'
       });    
 		}
 
+		toggleCategory(header) {
+			const body = header.nextElementSibling;
+			const isOpen = header.classList.contains('cc-open');
+			if (isOpen) {
+				header.classList.remove('cc-open');
+				header.setAttribute('aria-expanded', 'false');
+				body.style.display = 'none';
+			} else {
+				header.classList.add('cc-open');
+				header.setAttribute('aria-expanded', 'true');
+				body.style.display = 'block';
+			}
+		}
+
 		manageCookies() {
 			if (this.manageCookiesShown) {
 				document.getElementById('cookie-manage-cookies').style.display = 'none';
+				document.getElementById('cookie-popup-cookies').classList.remove('cc-expanded');
+				document.getElementById('cookie-popup-cookies').classList.remove('cc-manage-centered');
 				this.manageCookiesShown = false;
 			} else {
 				document.getElementById('cookie-manage-cookies').style.display = 'block';
-				document.getElementById('cookie-consent-btn').style.display = 'none'
+				document.getElementById('cookie-consent-btn').style.display = 'none';
+				const layout = (this.options.layout || '').toLowerCase();
+				const layoutBase = layout.replace(' inline', '').trim();
+				if (layoutBase !== 'bar') document.getElementById('cookie-popup-cookies').classList.add('cc-manage-centered');
+				document.getElementById('cookie-popup-cookies').classList.add('cc-expanded');
 				this.manageCookiesShown = true;
 			}
 		}
@@ -299,41 +327,168 @@ import locales from './locales.js'
 			return text;
 		}
 
+		getPositionStyle() {
+			const pos = (this.options.position || 'middle center').toLowerCase();
+			const layout = (this.options.layout || 'box wide').toLowerCase();
+
+			if (layout.startsWith('bar')) {
+				const vert = pos.split(' ')[0];
+				return vert === 'bottom'
+					? 'bottom: 0; left: 0; right: 0;'
+					: 'top: 0; left: 0; right: 0;';
+			}
+
+			const parts = pos.split(' ');
+			const vert = parts[0] || 'middle';
+			const horiz = parts[1] || 'center';
+			const transforms = [];
+			let css = '';
+
+			if (vert === 'top') css += 'top: 24px; ';
+			else if (vert === 'middle') { css += 'top: 50%; '; transforms.push('translateY(-50%)'); }
+			else { css += 'bottom: 24px; '; }
+
+			if (horiz === 'left') css += 'left: 24px; ';
+			else if (horiz === 'center') { css += 'left: 50%; '; transforms.push('translateX(-50%)'); }
+			else { css += 'right: 24px; '; }
+
+			if (transforms.length) css += `transform: ${transforms.join(' ')}; `;
+
+			return css;
+		}
+
 		render() {
 			var options = this.options;
+			const layout = (options.layout || 'box wide').toLowerCase();
+			const layoutBase = layout.replace(' inline', '').trim();
+			const posVert = (options.position || 'middle center').split(' ')[0];
+			const positionStyle = this.getPositionStyle();
+			const isBar = layoutBase === 'bar';
+			const barShadow = posVert === 'bottom'
+				? '0 -4px 12px rgba(0,0,0,0.1)'
+				: '0 4px 12px rgba(0,0,0,0.1)';
+
 			return /*html*/ `
 
 			<style>
 
 				.cookie-consent {
 					position: fixed;
-					top: 50%;
-					left: 50%;       
-          transform: translate(-50%, -50%);
 					font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Segoe UI Symbol";
-					width: 100%;
-          max-width: 800px;
+					width: calc(100vw - 48px);
+					max-width: 800px;
 					height: auto;
-          max-height: calc(100dvh - 48px);       
+					max-height: calc(100dvh - 48px);
 					z-index: 9999999999;
 				}
+
+				/* When expanding "manage cookies", center the modal regardless of initial position */
+				.cookie-consent.cc-manage-centered {
+					top: 50% !important;
+					left: 50% !important;
+					right: auto !important;
+					bottom: auto !important;
+					transform: translate(-50%, -50%) !important;
+				}
+
+				.cookie-consent[data-layout="box"]              { max-width: 480px; }
+				.cookie-consent[data-layout="box"].cc-expanded   { max-width: 700px; }
+				.cookie-consent[data-layout="cloud"]             { max-width: 880px; }
+				.cookie-consent[data-layout="cloud"].cc-expanded { max-width: 880px; }
+				.cookie-consent[data-layout="bar"]               { max-width: none; width: auto; max-height: none; }
 
 				.cookie-consent-modal {
 					background-color: ${options.color.modalBackground};
 					width: 100%;
-          max-height: calc(100dvh - 48px);
+					max-height: calc(100dvh - 48px);
 					overflow-y: auto;
 					border-radius: 6px;
-          border: 1px solid #ccc;
-          box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.8);
+					border: 1px solid #ccc;
+					box-shadow: 0px 0px 70px -2px rgba(0,0,0,0.8);
 				}
 
-				.cookie-consent-intro { padding: 25px 30px; }
+				.cookie-consent[data-layout="cloud"] .cookie-consent-modal {
+					border-radius: 20px;
+				}
+
+				/* Cloud: texto a la izquierda, botones a la derecha */
+				.cookie-consent[data-layout="cloud"] .cookie-consent-intro {
+					display: flex;
+					align-items: flex-start;
+					gap: 18px;
+				}
+
+				.cookie-consent[data-layout="cloud"] .cookie-consent-intro-content {
+					display: block;
+					flex: 1;
+				}
+
+				.cookie-consent[data-layout="cloud"] .cookie-consent-btn {
+					flex-direction: column;
+					gap: 8px;
+					padding-top: 0;
+					align-items: flex-end;
+				}
+
+				.cookie-consent[data-layout="cloud"] .cookie-consent-btn button {
+					width: 220px;
+					max-width: 100%;
+				}
+
+				.cookie-consent[data-layout="cloud"] .cookie-consent-btn-manage {
+					margin-right: 0;
+				}
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-modal {
+					border-radius: 0;
+					max-height: none;
+					overflow-y: visible;
+					box-shadow: ${barShadow};
+				}
+
+				.cookie-consent-intro { padding: 20px; }
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-intro {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 25px;
+					padding: 25px 30px;
+					max-width: 1200px;
+					margin-left: auto;
+					margin-right: auto;
+				}
+
+				.cookie-consent-intro-content { display: contents; }
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-intro-content {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					min-width: 0;
+				}
 
 				.cookie-consent-modal h3 {
-					font-size: 28px;
+					font-size: 18px;
 					margin-top: 0;
 					margin-bottom: 16px;
+				}
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-intro-content h3 {
+					margin-bottom: 2px;
+				}
+
+				.cookie-consent-modal p {
+					font-size: 14px;
+					line-height: 20px;
+				}
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-intro-content p {
+					line-height: 18px;
+					margin-top: 10px;
+					margin-bottom: 0;
+					margin-left: 0;
+					margin-right: 0;
 				}
 
 				.cookie-consent-intro p a {
@@ -343,14 +498,61 @@ import locales from './locales.js'
 					text-transform: lowercase;
 				}
 
-				.cookie-consent-modal p { line-height: 22px; }
-
 				.cookie-consent-modal a { text-decoration: none; }
 
 				.cookie-consent-btn {
 					display: flex;
 					justify-content: flex-end;
 					padding-top: 15px;
+				}
+
+				.cookie-consent[data-layout="box"] .cookie-consent-btn {
+					flex-direction: column;
+					gap: 8px;
+				}
+
+				/* box wide: mantener el mismo gap horizontal que bar */
+				.cookie-consent[data-layout="box wide"] #cookie-consent-btn {
+					display: flex;
+					flex-direction: row;
+					gap: 10px;
+					justify-content: flex-end;
+				}
+
+				.cookie-consent[data-layout="box wide"] .cookie-consent-btn {
+					gap: 10px;
+				}
+
+				.cookie-consent[data-layout="box wide"] .cookie-consent-btn-manage {
+					margin-right: 0;
+				}
+
+				.cookie-consent[data-layout="box"] .cookie-consent-btn button {
+					width: 100%;
+				}
+
+				.cookie-consent[data-layout="bar"] #cookie-consent-btn {
+					flex-shrink: 0;
+					padding-top: 0;
+					flex-direction: row;
+					gap: 10px;
+					width: 100%;
+					flex-wrap: nowrap;
+					justify-content: flex-start;
+				}
+
+				.cookie-consent[data-layout="bar"] .cookie-consent-btn {
+					justify-content: flex-start;
+				}
+
+				.cookie-consent[data-layout="bar"] #cookie-manage-cookies {
+					flex-basis: 100%;
+					border-top: 1px solid #e5e7eb;
+					padding-top: 16px;
+					margin-top: 4px;
+					max-width: 1200px;
+					margin-left: auto;
+					margin-right: auto;
 				}
 
 				.cookie-consent-btn button {
@@ -362,32 +564,77 @@ import locales from './locales.js'
 
 				.cookie-consent-btn button:focus { outline: none !important }
 				.cookie-consent-btn-manage { margin-right: 20px; }
+				.cookie-consent[data-layout="bar"] .cookie-consent-btn-manage { margin-right: 0; }
+				.cookie-consent[data-layout="box"] .cookie-consent-btn-manage { margin-right: 0; }
 				.cookie-consent-btn-accept { text-transform: uppercase; }
 
 				.cookie-consent-options-item {
+					border: 1px solid #e5e7eb;
+					border-radius: 6px;
+					margin-bottom: 8px;
+					overflow: hidden;
+				}
+
+				.cc-item-header {
 					display: flex;
-					margin-bottom: 20px;
-				}
-
-				.cookie-consent-options-item-right { margin-left: 15px; }
-
-				.cookie-consent-options-item-right label {
-					font-size: 20px;
-					font-weight: bold;
+					align-items: center;
+					gap: 10px;
+					padding: 14px 16px;
 					cursor: pointer;
+					width: 100%;
+					background: transparent;
+					border: none;
+					text-align: left;
 				}
 
-				.cookie-consent-options-item-right label + p {
-					margin-top: 10px;
+				.cc-item-header:focus { outline: none; }
+
+				.cc-item-chevron {
+					flex-shrink: 0;
+					display: flex;
+					align-items: center;
+					color: #9ca3af;
+					transition: transform 0.2s;
+				}
+
+				.cc-item-header.cc-open .cc-item-chevron {
+					transform: rotate(180deg);
+				}
+
+				.cc-item-title {
+					flex: 1;
 					font-size: 14px;
-					line-height: 20px;
+					font-weight: 600;
+				}
+
+				.cc-item-controls {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					flex-shrink: 0;
+				}
+
+				.cc-item-always-enabled {
+					font-size: 12px;
+					color: #6b7280;
+					white-space: nowrap;
+				}
+
+				.cc-item-body {
+					display: none;
+					padding: 0 16px 14px;
+					border-top: 1px solid #e5e7eb;
+				}
+
+				.cc-item-body p {
+					margin: 12px 0 0;
 				}
 
 				.cookie-consent-switch {
 					position: relative;
 					display: inline-block;
-					width: 40px;
-					height: 24px;
+					width: 34px;
+					height: 20px;
 				}
 
 				.cookie-consent-switch input {
@@ -410,9 +657,9 @@ import locales from './locales.js'
 				.cookie-consent-switch-slider:before {
 					position: absolute;
 					content: "";
-					height: 18px;
-					width: 18px;
-					left: 4px;
+					height: 14px;
+					width: 14px;
+					left: 3px;
 					bottom: 3px;
 					background-color: white;
 					-webkit-transition: .4s;
@@ -422,9 +669,9 @@ import locales from './locales.js'
 				input:checked + .cookie-consent-switch-slider { background-color: ${options.color.switchActiveBackground} !important; }
 
 				input:checked + .cookie-consent-switch-slider:before {
-					-webkit-transform: translateX(15px);
-					-ms-transform: translateX(15px);
-					transform: translateX(15px);
+					-webkit-transform: translateX(14px);
+					-ms-transform: translateX(14px);
+					transform: translateX(14px);
 				}
 
 				.cookie-consent-switch-slider.round { border-radius: 30px; }
@@ -438,35 +685,79 @@ import locales from './locales.js'
 						line-height: 20px;
 					}
 
-          .cookie-consent {
-						max-width: calc(100% - 48px);
-            max-height: calc(100dvh - 48px);
-					}
-
-					.cookie-consent-modal {
+					.cookie-consent:not([data-layout="bar"]) {
 						max-height: calc(100dvh - 48px);
 					}
 
-					.cookie-consent-intro { padding: 15px; }
+					.cookie-consent:not([data-layout="bar"]) .cookie-consent-modal {
+						max-height: calc(100dvh - 48px);
+					}
 
-					.cookie-consent-btn {
-						display: block;
+					.cookie-consent-intro { padding: 20px; }
+
+					.cookie-consent[data-layout="cloud"] .cookie-consent-intro {
+						flex-direction: column;
+					}
+
+					.cookie-consent[data-layout="cloud"] .cookie-consent-btn {
+						width: 100%;
+						align-items: stretch;
+					}
+
+					.cookie-consent[data-layout="cloud"] .cookie-consent-btn button {
+						width: 100%;
+					}
+
+					.cookie-consent[data-layout="bar"] #cookie-consent-btn {
+						display: flex;
+						flex-direction: column;
+						width: 100%;
+					}
+
+					.cookie-consent[data-layout="bar"] .cookie-consent-intro {
+						flex-direction: column;
+						align-items: flex-start;
+					}
+
+					.cookie-consent[data-layout="box"] .cookie-consent-btn,
+					.cookie-consent[data-layout="box wide"] .cookie-consent-btn {
+						flex-direction: column;
+						justify-content: flex-start;
+						gap: 8px;
+					}
+
+					/* When stacking buttons with gap, don't add extra spacing per-button */
+					.cookie-consent[data-layout="box"] .cookie-consent-btn-manage,
+					.cookie-consent[data-layout="box wide"] .cookie-consent-btn-manage {
+						margin-bottom: 0;
+					}
+
+					/* Same issue in responsive: when the parent uses gap, avoid per-button margins */
+					.cookie-consent[data-layout="cloud"] .cookie-consent-btn-manage {
+						margin-bottom: 0;
+						margin-right: 0;
+					}
+
+					.cookie-consent[data-layout="bar"] #cookie-consent-btn .cookie-consent-btn-manage,
+					.cookie-consent[data-layout="bar"] .cookie-consent-btn-manage {
+						margin-bottom: 0;
+						margin-right: 0;
 					}
 
 					.cookie-consent-switch {
-						width: 32px;
-						height: 20px;
+						width: 28px;
+						height: 17px;
 					}
 
 					.cookie-consent-switch-slider:before {
-						width: 14px;
-						height: 14px;
+						width: 11px;
+						height: 11px;
 					}
 
 					input:checked + .cookie-consent-switch-slider:before {
-						-webkit-transform: translateX(11px);
-						-ms-transform: translateX(11px);
-						transform: translateX(11px);
+						-webkit-transform: translateX(14px);
+						-ms-transform: translateX(14px);
+						transform: translateX(14px);
 					}
 
 					.cookie-consent-btn button { width: 100% }
@@ -477,22 +768,23 @@ import locales from './locales.js'
 					}
 
 					.cookie-consent-btn-accept { min-height: 50px }
-					.cookie-consent-options-item-right label { font-size: 16px; }
 					.cookie-consent-manage { padding: 15px 20px; }
 					.cookie-consent-options { padding: 0; }
 				}
 			</style>
 
 
-				<div class="cookie-consent" id="cookie-popup-cookies" style="color: ${options.color.textColor};">
+				<div class="cookie-consent" id="cookie-popup-cookies" data-layout="${layoutBase}" style="${positionStyle} color: ${options.color.textColor};">
 					<div class="cookie-consent-modal" style="border: 1px solid ${options.color.modalBorder}; background-color: ${options.color.modalBackground};">
 						<div class="cookie-consent-intro">
-							<h3 style="color: ${options.color.titleColor}">${options.text.modalTitle}</h3>
-							<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
+							<div class="cookie-consent-intro-content">
+								<h3 style="color: ${options.color.titleColor}">${options.text.modalTitle}</h3>
+								<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
+							</div>
 							<div class="cookie-consent-btn" id="cookie-consent-btn">
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
 								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-reject-all" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.rejectAll()">${options.text.btnRejectAll}</button>
-								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground};  border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 							</div>
 							<div id="cookie-manage-cookies" style="display: none;">
 								<div class="cookie-consent-cookie-consent-manage">
@@ -504,51 +796,64 @@ import locales from './locales.js'
 								</div>
 								<div class="cookie-consent-options">
 									<div class="cookie-consent-options-item" id="cookie-strictly-necessary">
-										<div class="cookie-consent-options-item-left">
-											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
-												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}; opacity: .5;"></span>
-											</label>
+										<div class="cc-item-header" onclick="CookieConsent.toggleCategory(this)" aria-expanded="false">
+											<span class="cc-item-chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg></span>
+											<span class="cc-item-title" style="color: ${options.color.titleColor}" id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</span>
+											<div class="cc-item-controls">
+												<span class="cc-item-always-enabled">${options.text.alwaysEnabled}</span>
+												<label class="cookie-consent-switch" onclick="event.stopPropagation()">
+													<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.strictlyNecessaryCookies].checkboxId}" checked disabled/>
+													<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}; opacity: .5;"></span>
+												</label>
+											</div>
 										</div>
-										<div class="cookie-consent-options-item-right">
-											<label style="color: ${options.color.titleColor}" for="${this.categories[this.strictlyNecessaryCookies].checkboxId}" id="cookie-strictly-necessary-title">${options.text.strictlyNecessaryTitle}</label>
-											<p id="cookie-strictly-necessary-text">${options.text.strictlyNecessaryText}</p>
+										<div class="cc-item-body" id="cookie-strictly-necessary-text">
+											<p>${options.text.strictlyNecessaryText}</p>
 										</div>
 									</div>
 									<div id="cookie-functionality" class="cookie-consent-options-item">
-										<div class="cookie-consent-options-item-left">
-											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
-											</label>
+										<div class="cc-item-header" onclick="CookieConsent.toggleCategory(this)" aria-expanded="false">
+											<span class="cc-item-chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg></span>
+											<span class="cc-item-title" style="color: ${options.color.titleColor}" id="cookie-functionality-title">${options.text.functionalityTitle}</span>
+											<div class="cc-item-controls">
+												<label class="cookie-consent-switch" onclick="event.stopPropagation()">
+													<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.functionalityCookies].checkboxId}" ${this.cookies.functionalityCookies ? 'checked' : ''}/>
+													<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+												</label>
+											</div>
 										</div>
-										<div class="cookie-consent-options-item-right">
-											<label style="color: ${options.color.titleColor}" for="${this.categories[this.functionalityCookies].checkboxId}" id="cookie-functionality-title">${options.text.functionalityTitle}</label>
-											<p id="cookie-functionality-text">${options.text.functionalityText}</p>
+										<div class="cc-item-body" id="cookie-functionality-text">
+											<p>${options.text.functionalityText}</p>
 										</div>
 									</div>
 									<div id="cookie-tracking" class="cookie-consent-options-item">
-										<div class="cookie-consent-options-item-left">
-											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
-											</label>
+										<div class="cc-item-header" onclick="CookieConsent.toggleCategory(this)" aria-expanded="false">
+											<span class="cc-item-chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg></span>
+											<span class="cc-item-title" style="color: ${options.color.titleColor}" id="cookie-tracking-title">${options.text.trackingTitle}</span>
+											<div class="cc-item-controls">
+												<label class="cookie-consent-switch" onclick="event.stopPropagation()">
+													<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.trackingCookies].checkboxId}" ${this.cookies.trackingCookies ? 'checked' : ''}/>
+													<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+												</label>
+											</div>
 										</div>
-										<div class="cookie-consent-options-item-right">
-											<label style="color: ${options.color.titleColor}" for="${this.categories[this.trackingCookies].checkboxId}" id="cookie-tracking-title">${options.text.trackingTitle}</label>
-											<p id="cookie-tracking-text">${options.text.trackingText}</p>
+										<div class="cc-item-body" id="cookie-tracking-text">
+											<p>${options.text.trackingText}</p>
 										</div>
 									</div>
 									<div id="cookie-targeting" class="cookie-consent-options-item">
-										<div class="cookie-consent-options-item-left">
-											<label class="cookie-consent-switch">
-												<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
-												<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
-											</label>
+										<div class="cc-item-header" onclick="CookieConsent.toggleCategory(this)" aria-expanded="false">
+											<span class="cc-item-chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg></span>
+											<span class="cc-item-title" style="color: ${options.color.titleColor}" id="cookie-targeting-title">${options.text.targetingTitle}</span>
+											<div class="cc-item-controls">
+												<label class="cookie-consent-switch" onclick="event.stopPropagation()">
+													<input type="checkbox" style="color: ${options.color.switchColor}" id="${this.categories[this.targetingCookies].checkboxId}" ${this.cookies.targetingCookies ? 'checked' : ''}/>
+													<span class="cookie-consent-switch-slider round" style="background-color: ${options.color.switchBackground}"></span>
+												</label>
+											</div>
 										</div>
-										<div class="cookie-consent-options-item-right">
-											<label style="color: ${options.color.titleColor}" for="${this.categories[this.targetingCookies].checkboxId}" id="cookie-targeting-title">${options.text.targetingTitle}</label>
-											<p id="cookie-targeting-text">${options.text.targetingText}</p>
+										<div class="cc-item-body" id="cookie-targeting-text">
+											<p>${options.text.targetingText}</p>
 										</div>
 									</div>
 									<div class="cookie-consent-btn">

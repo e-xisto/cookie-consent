@@ -5,6 +5,7 @@ export default {
   btnRejectAll: "Refuser tous les cookies",
 	btnManageCookies: "Gérer les cookies",
 	btnAcceptSelection: "Accepter les cookies sélectionnés",
+	alwaysEnabled: "Toujours actifs",
 	privacyTitle: "Votre confidentialité est importante pour nous",
 	privacyTextDefinition: "Les cookies sont de très petits fichiers texte qui sont stockés sur votre ordinateur lorsque vous visitez un site Web. Nous utilisons des cookies à diverses fins et pour améliorer votre expérience en ligne sur notre site Web (par exemple, pour mémoriser les informations de connexion de votre compte).",
 	privacyTextInstructions: "Vous pouvez modifier vos préférences et refuser l'enregistrement de certains types de cookies sur votre ordinateur lors de la navigation sur notre site. Vous pouvez également supprimer les cookies déjà stockés sur votre ordinateur, mais gardez à l'esprit que leur suppression peut vous empêcher d'utiliser des éléments de notre site Web.",

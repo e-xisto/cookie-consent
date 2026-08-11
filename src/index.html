@@ -1,107 +1,438 @@
 <!DOCTYPE html>
 <html lang="es">
-	<head>
-    <script src="cookie-consent.js"></script>
+<head>
+  <script src="cookie-consent.js"></script>
 
-		<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-N4LMHQ6S');</script>
-  <!-- End Google Tag Manager -->    
-		<title>Existo cookie consent</title>
+  <!-- End Google Tag Manager -->
 
-		<script>
-			CookieConsent.config({ locale: 'es' });
-		</script>
+  <title>Cookie Consent · Playground</title>
 
-		<script>
-			CookieConsent.checkCookie('strictlyNecessaryCookies', function() {
-				console.log('fires strictlyNecessaryCookies');
-        document.cookie = 'necesary=on'
-			});
-		</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
 
-		<script>
-			CookieConsent.checkCookie('functionalityCookies', function() {
-				console.log('fires functionalityCookies');
-        document.cookie = 'funcionality=on'
-			});
-		</script>
+    body {
+      margin: 0;
+      font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+      min-height: 100vh;
+    }
 
-		<script>
-			CookieConsent.checkCookie('trackingCookies', function() {
-				console.log('fires trackingCookies');
-        document.cookie = 'tracking=on'
-			});
-		</script>
+    .pg-header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-		<script>
-			CookieConsent.checkCookie('targetingCookies', function() {
-				console.log('fires targetingCookies');
-        document.cookie = 'targeting=on'
-			});
-		</script>
+    .pg-header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
 
-	</head>
-	<body style="overflow: hidden">
+    .pg-header .pg-badge {
+      background: #d1fae5;
+      color: #065f46;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .pg-layout {
+      display: flex;
+      min-height: calc(100vh - 65px);
+    }
+
+    /* ── Sidebar ── */
+    .pg-sidebar {
+      width: 300px;
+      flex-shrink: 0;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .pg-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin: 0 0 12px 0;
+    }
+
+    .pg-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pg-field label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .pg-field select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #111827;
+      background: #fff;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+
+    .pg-field select:focus {
+      outline: none;
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+    }
+
+    .pg-divider { border: none; border-top: 1px solid #e5e7eb; margin: 0; }
+
+    .pg-code-block {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #374151;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* ── Canvas ── */
+    .pg-canvas {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      position: relative;
+    }
+
+    .pg-canvas-hint {
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    .pg-canvas-hint svg {
+      display: block;
+      margin: 0 auto 12px;
+      opacity: 0.4;
+    }
+
+    .pg-canvas-hint p {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+
+    .pg-canvas-hint p strong {
+      color: #6b7280;
+    }
+
+    /* ── Layout pills ── */
+    .pg-layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .pg-layout-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #6b7280;
+      background: #f9fafb;
+      cursor: pointer;
+      transition: all 0.12s;
+      white-space: nowrap;
+    }
+
+    .pg-layout-pill:hover { border-color: #059669; color: #059669; background: #ecfdf5; }
+
+    .pg-layout-pill.active {
+      border-color: #059669;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    /* ── Position grid ── */
+    .pg-position-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .pg-position-cell {
+      aspect-ratio: 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #f9fafb;
+      transition: all 0.12s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .pg-position-cell:hover { border-color: #059669; background: #ecfdf5; color: #059669; }
+
+    .pg-position-cell.active {
+      border-color: #059669;
+      background: #059669;
+      color: #fff;
+    }
+
+    .pg-position-cell svg { pointer-events: none; }
+
+    .pg-position-label {
+      margin: 8px 0 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #059669;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 768px) {
+      .pg-layout { flex-direction: column; }
+      .pg-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e5e7eb; }
+      .pg-canvas { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4LMHQ6S"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->    
-		<div class="container">
-			<h1>Cookie consent test</h1>
-			<p>Explicación?</p>
-			<p>doc?</p>
-<pre>
-<code>
-{
-	text: {
-		modalTitle: "",
-		noticeText: "", // {{cookiesPolicyLink}}
-		btnAcceptAll: "",
-		btnManageCookies: "",
-		btnAcceptSelection: "",
-		privacyTitle: "",
-		privacyTextDefinition: "",
-		privacyTextInstructions: "",
-		strictlyNecessaryTitle: "",
-		strictlyNecessaryText: "",
-		functionalityTitle: "",
-		functionalityText: "",
-		trackingTitle: "",
-		trackingText: "",
-		targetingTitle: "",
-		targetingText: "",
-	},
-	color: {
-		textColor: "#6B7280",
-		titleColor: "black",
-		linkColor: "black",
-		modalBackground: "white",
-		modalBorder: "white",
-		btnPrimaryText: "white",
-		btnPrimaryBackground: "#059669",
-		btnPrimaryBorder: "#059669",
-		btnSecondaryText: "#6B7280",
-		btnSecondaryBackground: "white",
-		btnSecondaryBorder: "#D1D5DB",
-		switchColor: "green",
-		switchBackground: "#D1D5DB",
-		switchActiveBackground: "#059669"
-	},
-	cookiesPolicyLink:"",
-	locale: ""
-}
-</code>
-</pre>
-	<br>
-	<br>
-			<button type="button" onclick="CookieConsent.openPopup()">Open popup (button)</button>
-			<a href="javascript:CookieConsent.openPopup()">Open popup (link)</a>
-		</div>
-	</body>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="pg-header">
+  <h1>Cookie Consent</h1>
+  <span class="pg-badge">Playground</span>
+</header>
+
+<div class="pg-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="pg-sidebar">
+
+    <div class="pg-field">
+      <label for="locale-select">Idioma</label>
+      <select id="locale-select"></select>
+    </div>
+
+    <hr class="pg-divider">
+
+    <div>
+      <p class="pg-section-title">Layout</p>
+      <div class="pg-layout-grid" id="layout-pills"></div>
+    </div>
+
+    <hr class="pg-divider">
+
+    <div>
+      <p class="pg-section-title">Position</p>
+      <div class="pg-position-grid" id="position-grid"></div>
+      <p class="pg-position-label" id="position-label">middle center</p>
+    </div>
+
+    <hr class="pg-divider">
+
+    <div>
+      <p class="pg-section-title">Configuración actual</p>
+      <pre class="pg-code-block" id="config-preview"></pre>
+    </div>
+
+  </aside>
+
+  <!-- ── Canvas ── -->
+  <main class="pg-canvas">
+    <div class="pg-canvas-hint">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M3 9h18M9 21V9"/>
+      </svg>
+      <p><strong>Selecciona layout y posición</strong></p>
+      <p>para ver el banner en tiempo real</p>
+    </div>
+  </main>
+
+</div>
+
+<script>
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  var currentLocale   = 'es';
+  var currentLayout   = 'box wide';
+  var currentPosition = 'middle center';
+
+  var locales = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'fr', label: 'Français' },
+    { code: 'ca', label: 'Català' },
+    { code: 'it', label: 'Italiano' },
+    { code: 'nl', label: 'Nederlands' },
+    { code: 'pt', label: 'Português' },
+  ];
+
+  var layouts = [
+    'box', 'box wide',
+    'cloud',
+    'bar'
+  ];
+
+  var positions = [
+    'top left',    'top center',    'top right',
+    'middle left', 'middle center', 'middle right',
+    'bottom left', 'bottom center', 'bottom right',
+  ];
+
+  // ── Build locale selector ─────────────────────────────────────────────────
+  var localeSelect = document.getElementById('locale-select');
+  locales.forEach(function(locale) {
+    var option = document.createElement('option');
+    option.value = locale.code;
+    option.textContent = locale.label;
+    if (locale.code === currentLocale) option.selected = true;
+    localeSelect.appendChild(option);
+  });
+
+  localeSelect.onchange = function() {
+    currentLocale = localeSelect.value;
+    updateConfigPreview();
+    previewBanner();
+  };
+
+  // ── Build layout pills ────────────────────────────────────────────────────
+  var layoutContainer = document.getElementById('layout-pills');
+  layouts.forEach(function(l) {
+    var el = document.createElement('button');
+    el.className = 'pg-layout-pill' + (l === currentLayout ? ' active' : '');
+    el.textContent = l;
+    el.onclick = function() {
+      currentLayout = l;
+      document.querySelectorAll('.pg-layout-pill').forEach(function(p) { p.classList.remove('active'); });
+      el.classList.add('active');
+      updateConfigPreview();
+      previewBanner();
+    };
+    layoutContainer.appendChild(el);
+  });
+
+  // ── Build position grid ───────────────────────────────────────────────────
+  var positionContainer = document.getElementById('position-grid');
+
+  var posIcons = {
+    'top left':      '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="1" width="5" height="5" rx="1"/></svg>',
+    'top center':    '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="4.5" y="1" width="5" height="5" rx="1"/></svg>',
+    'top right':     '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="8" y="1" width="5" height="5" rx="1"/></svg>',
+    'middle left':   '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="4.5" width="5" height="5" rx="1"/></svg>',
+    'middle center': '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="4.5" y="4.5" width="5" height="5" rx="1"/></svg>',
+    'middle right':  '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="8" y="4.5" width="5" height="5" rx="1"/></svg>',
+    'bottom left':   '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="8" width="5" height="5" rx="1"/></svg>',
+    'bottom center': '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="4.5" y="8" width="5" height="5" rx="1"/></svg>',
+    'bottom right':  '<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="8" y="8" width="5" height="5" rx="1"/></svg>',
+  };
+
+  positions.forEach(function(p) {
+    var el = document.createElement('button');
+    el.className = 'pg-position-cell' + (p === currentPosition ? ' active' : '');
+    el.title = p;
+    el.innerHTML = posIcons[p] || p;
+    el.onclick = function() {
+      currentPosition = p;
+      document.querySelectorAll('.pg-position-cell').forEach(function(c) { c.classList.remove('active'); });
+      el.classList.add('active');
+      document.getElementById('position-label').textContent = p;
+      updateConfigPreview();
+      previewBanner();
+    };
+    positionContainer.appendChild(el);
+  });
+
+  // ── Config preview ────────────────────────────────────────────────────────
+  function updateConfigPreview() {
+    document.getElementById('config-preview').textContent =
+      'CookieConsent.config({\n' +
+      '  locale: \'' + currentLocale + '\',\n' +
+      '  layout: \'' + currentLayout + '\',\n' +
+      '  position: \'' + currentPosition + '\',\n' +
+      '})';
+  }
+
+  updateConfigPreview();
+
+  // ── Preview ───────────────────────────────────────────────────────────────
+  function previewBanner() {
+    CookieConsent.closePopup();
+    localStorage.removeItem('cookie_consent');
+    CookieConsent.config({
+      locale: currentLocale,
+      layout: currentLayout,
+      position: currentPosition,
+    });
+  }
+
+  // ── Auto-preview on load ──────────────────────────────────────────────────
+  previewBanner();
+
+  // ── checkCookie examples ──────────────────────────────────────────────────
+  CookieConsent.checkCookie('strictlyNecessaryCookies', function() {
+    console.log('[playground] fires strictlyNecessaryCookies');
+  });
+  CookieConsent.checkCookie('functionalityCookies', function() {
+    console.log('[playground] fires functionalityCookies');
+  });
+  CookieConsent.checkCookie('trackingCookies', function() {
+    console.log('[playground] fires trackingCookies');
+  });
+  CookieConsent.checkCookie('targetingCookies', function() {
+    console.log('[playground] fires targetingCookies');
+  });
+
+</script>
+</body>
 </html>
