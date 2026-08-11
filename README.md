@@ -5,6 +5,28 @@ Plantilla Google Tag Manager: [GTM-Cookie-Conset-Events-Template.json](./docs/GT
 
 //TODO documentation
 
+### CDN (jsDelivr)
+
+Full build (all locales, ~53 KB) — drop-in for existing integrations:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/e-xisto/cookie-consent@v2.6.0/dist/cookie-consent.js"></script>
+<script>
+	CookieConsent.config({ locale: 'es' });
+</script>
+```
+
+Single-locale build (~29 KB) when the site only needs one language:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/e-xisto/cookie-consent@v2.6.0/dist/cookie-consent.es.js"></script>
+<script>
+	CookieConsent.config({ locale: 'es' });
+</script>
+```
+
+Available locale files: `cookie-consent.en.js`, `cookie-consent.es.js`, `cookie-consent.de.js`, `cookie-consent.fr.js`, `cookie-consent.ca.js`, `cookie-consent.it.js`, `cookie-consent.nl.js`, `cookie-consent.pt.js`.
+
 ```html
 <head>
 <script src="cookie-consent.js"></script>
