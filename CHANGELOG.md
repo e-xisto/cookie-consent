@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.0.0] - 2026/08/11
+
+### Added
+
+- `disablePageInteraction` config option (`boolean`, default `false`): when `true`, the modal blocks page scroll by setting `body { overflow: hidden }` while the banner is visible. Previously this was always applied for non-inline layouts.
+
+### Changed
+
+- **Breaking:** page scroll is no longer blocked by default. Existing integrations that relied on the implicit scroll-lock must explicitly set `disablePageInteraction: true`.
+
+---
+
 ## [2.6.0] - 2026/08/11
 
 ### Added

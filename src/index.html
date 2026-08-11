@@ -383,6 +383,27 @@
 
     .pg-position-cell svg { pointer-events: none; }
 
+    /* ── Check label ── */
+    .pg-check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      user-select: none;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    }
+
+    .pg-check-label input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: #059669;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .pg-position-label {
       margin: 8px 0 8px;
       text-align: center;
@@ -445,7 +466,10 @@
       <p class="pg-position-label" id="position-label">middle center</p>
     </div>
 
-    <hr class="pg-divider">
+    <label class="pg-check-label">
+      <input type="checkbox" id="disable-page-interaction">
+      disablePageInteraction
+    </label>
 
     <details class="pg-details pg-details-colors">
       <summary>
@@ -503,6 +527,7 @@
     position: 'middle center',
     cookiesPolicyLink: '#',
     color: Object.assign({}, DEFAULT_COLORS),
+    disablePageInteraction: false,
   };
 
   var locales = [
@@ -555,6 +580,7 @@
       layout: state.layout,
       position: state.position,
       cookiesPolicyLink: state.cookiesPolicyLink,
+      disablePageInteraction: state.disablePageInteraction,
       color: Object.assign({}, state.color),
     };
   }
@@ -584,6 +610,14 @@
   linkInput.value = state.cookiesPolicyLink;
   linkInput.oninput = function() {
     state.cookiesPolicyLink = linkInput.value;
+    refresh();
+  };
+
+  // ── disablePageInteraction ────────────────────────────────────────────────
+  var disablePageInteractionCheckbox = document.getElementById('disable-page-interaction');
+  disablePageInteractionCheckbox.checked = state.disablePageInteraction;
+  disablePageInteractionCheckbox.onchange = function() {
+    state.disablePageInteraction = disablePageInteractionCheckbox.checked;
     refresh();
   };
 
@@ -715,6 +749,8 @@
       var comma = i < keys.length - 1 ? ',' : '';
       if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
         lines.push(padInner + key + ': ' + formatObject(value, indent + 1) + comma);
+      } else if (typeof value === 'boolean') {
+        lines.push(padInner + key + ': ' + value + comma);
       } else {
         lines.push(padInner + key + ": '" + escapeJsString(value) + "'" + comma);
       }
@@ -734,7 +770,7 @@
     CookieConsent.closePopup();
     localStorage.removeItem('cookie_consent');
     CookieConsent.config(buildConfig());
-    // Keep playground chrome scrollable (banner normally locks body overflow)
+    // Keep playground chrome layout intact regardless of disablePageInteraction
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
   }

@@ -57,6 +57,7 @@ import locales from './locales.js'
 			locale: defaultLocale,
 			layout: 'box wide',
 			position: 'middle center',
+			disablePageInteraction: false,
 		};
 
 		manageCookiesShown = false;
@@ -111,6 +112,7 @@ import locales from './locales.js'
 			if (options.cookiesPolicyLink) this.options.cookiesPolicyLink = options.cookiesPolicyLink;
 			if (options.layout !== undefined) this.options.layout = options.layout;
 			if (options.position !== undefined) this.options.position = options.position;
+			if (options.disablePageInteraction !== undefined) this.options.disablePageInteraction = options.disablePageInteraction;
 		}
 
 		openPopup() {
@@ -118,7 +120,7 @@ import locales from './locales.js'
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
 				const isInline = (this.options.layout || '').includes('inline');
-				if (!isInline) {
+				if (!isInline && this.options.disablePageInteraction) {
 					this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
 					document.body.style.overflow = "hidden";
 				}
@@ -130,7 +132,10 @@ import locales from './locales.js'
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (popup) {
 				popup.remove();
-				if (this.overflowbody) document.body.style.overflow = this.overflowbody;
+				if (this.overflowbody) {
+					document.body.style.overflow = this.overflowbody;
+					this.overflowbody = null;
+				}
 			}
 		}
 
