@@ -5,6 +5,7 @@ export default {
   btnRejectAll: "Alle cookies weigeren",
 	btnManageCookies: "Beheer cookies",
 	btnAcceptSelection: "Accepteer geselecteerde cookies",
+	alwaysEnabled: "Altijd ingeschakeld",
 	privacyTitle: "Uw privacy is belangrijk voor ons",
 	privacyTextDefinition: "Cookies zijn kleine tekstbestanden die bij het bezoeken van een website op uw computer worden opgeslagen. We gebruiken cookies voor verschillende doeleinden en om uw online ervaring op onze website te verbeteren (bijvoorbeeld om de inloggegevens voor uw account te onthouden).",
 	privacyTextInstructions: "U kunt uw voorkeuren wijzigen en bepaalde soorten cookies weigeren die op uw computer worden opgeslagen tijdens het browsen op onze website. U kunt ook alle cookies verwijderen die al op uw computer zijn opgeslagen, maar houd er rekening mee dat het verwijderen van cookies ertoe kan leiden dat u delen van onze website niet kunt gebruiken.",

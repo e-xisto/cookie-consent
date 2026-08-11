@@ -5,6 +5,7 @@ export default {
   btnRejectAll: "Rejeitar todos os cookies",
 	btnManageCookies: "Gerenciar cookies",
 	btnAcceptSelection: "Aceitar cookies selecionados",
+	alwaysEnabled: "Sempre ativo",
 	privacyTitle: "A sua privacidade é importante para nós.",
 	privacyTextDefinition: "Cookies são pequenos arquivos de texto que são armazenados no seu computador quando visita um site. Utilizamos cookies para diversos fins e para aprimorar sua experiência no nosso site (por exemplo, para se lembrar dos detalhes de login da sua conta).",
 	privacyTextInstructions: "Pode alterar as suas preferências e recusar o armazenamento de certos tipos de cookies no seu computador enquanto navega no nosso site. Pode também remover todos os cookies já armazenados no seu computador, mas lembre-se de que a exclusão de cookies pode impedir o uso de determinadas áreas no nosso site.",

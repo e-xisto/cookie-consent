@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.5.0] - 2026/08/11
+
+### Added
+
+- `layout` config option to control the banner shape: `box`, `box wide` (default), `box inline`, `cloud`, `cloud inline`, `bar`, `bar inline`
+- `position` config option to place the banner in any of 9 screen positions: `top/middle/bottom` × `left/center/right`
+- `inline` layout variants do not block page scroll (`overflow: hidden` not applied to `body`)
+- `bar` layout renders a full-width horizontal strip; auto-adapts shadow direction based on `top`/`bottom` position
+- Interactive playground (`src/index.html`) with live layout/position picker and config code preview
+
+### Fixed
+
+- Primary action button border was rendering black because `btnPrimaryBorder` was missing from default options — now defaults to the same value as `btnPrimaryBackground`
+
+
 ## [2.4.0] - 2026/07/22
 
 ### Added

@@ -5,6 +5,7 @@ export default {
   btnRejectAll: "Alle Cookies ablehnen",
 	btnManageCookies: "Manage cookies",
 	btnAcceptSelection: "Akzeptieren Sie ausgewählte Cookies",
+	alwaysEnabled: "Immer aktiv",
 	privacyTitle: "Ihre Privatsphäre ist uns wichtig",
 	privacyTextDefinition: "Cookies sind sehr kleine Textdateien, die auf Ihrem Rechner gespeichert werden, wenn Sie eine Website besuchen. Wir verwenden Cookies für eine Reihe von Auswertungen, um damit Ihren Besuch auf unserer Website kontinuierlich zu verbessern zu können (z. B. damit Ihnen Ihre Login-Daten erhalten bleiben).",
 	privacyTextInstructions: "Sie können Ihre Einstellungen ändern und verschiedenen Arten von Cookies erlauben, auf Ihrem Rechner gespeichert zu werden, während Sie unsere Webseite besuchen. Sie können auf Ihrem Rechner gespeicherte Cookies ebenso weitgehend wieder entfernen. Bitte bedenken Sie aber, dass dadurch Teile unserer Website möglicherweise nicht mehr in der gedachten Art und Weise nutzbar sind.",
