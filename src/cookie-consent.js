@@ -21,6 +21,8 @@ import locales from './locales.js'
   // Redact ad click identifiers when ad_storage is denied (Consent Mode advanced)
   gtag('set', 'ads_data_redaction', true);
 
+	const defaultLocale = locales.en ? 'en' : Object.keys(locales)[0];
+
 	class CookieConsent {
 
 		strictlyNecessaryCookies = 'strictlyNecessaryCookies';
@@ -34,7 +36,7 @@ import locales from './locales.js'
 		initial = false;
 
 		options = {
-			text: locales.en,
+			text: locales[defaultLocale],
 			color: {
 				textColor: "#6B7280",
 				titleColor: "black",
@@ -52,7 +54,7 @@ import locales from './locales.js'
 				switchActiveBackground: "#059669"
 			},
 			cookiesPolicyLink: "",
-			locale: 'en',
+			locale: defaultLocale,
 			layout: 'box wide',
 			position: 'middle center',
 		};
@@ -246,7 +248,7 @@ import locales from './locales.js'
       cookies.forEach((cookie) => {
         const cookieName = cookie.trim().split('=')[0];
         const cookieDomain = topLevelDomain.startsWith('.') ? topLevelDomain : `.${topLevelDomain}`;
-        const cookiePath = "/"; // Set the path to the root by default
+        let cookiePath = "/"; // Set the path to the root by default
 
         const cookiePathParts = cookie.trim().split('=');
         if (cookiePathParts.length > 1 && cookiePathParts[0].trim() === "path") {

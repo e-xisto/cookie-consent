@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.6.0] - 2026/08/11
+
+### Added
+
+- Per-locale CDN builds: `dist/cookie-consent.{locale}.js` for `en`, `es`, `de`, `fr`, `ca`, `it`, `nl`, `pt` (same API, single language only)
+
+### Changed
+
+- Production build now uses esbuild (minified IIFE) instead of Parcel; `dist/cookie-consent.js` still includes all locales for CDN backward compatibility
+
+
 ## [2.5.0] - 2026/08/11
 
 ### Added
