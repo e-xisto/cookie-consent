@@ -5,6 +5,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.0] - 2026/08/13
+
+### Added
+
+- `hideFromBots` config option (`boolean`, default `true`): stops plugin execution when a bot/crawler is detected (user agent or `navigator.webdriver`), so the modal content is not indexed
+
+### Changed
+
+- Default layout is now `box` (was `box wide`) and default position is `bottom right` (was `middle center`)
+- Banner buttons always appear in this order across all layouts: Accept, Reject, Manage
+- `box wide` and `bar` layouts split banner actions: Accept/Reject on the left, Manage cookies on the right
+- `box` layout banner is 80px narrower (`max-width` 400px)
+- Default accept/reject buttons now share the same style: background `#30363c`, white text
+- Default manage cookies button uses background `#eaeff2` and text `#2c2f31`
+- Spanish defaults for accept/reject buttons are now "Aceptar todas" and "Rechazar todas"
+- Spanish banner notice text rewritten (no implied consent by browsing)
+- Accept button no longer uses `text-transform: uppercase`
+- Banner button labels now use bold font weight
+- Preferences panel buttons are always "Accept selected" then "Accept all", left-aligned, in every layout
+- Preferences panel "Accept selected" uses the same primary colors as "Accept all"
+- Production bundles now minify the banner HTML/CSS template (esbuild does not minify template-literal contents by itself)
+
+### Fixed
+
+- Cloud layout: opening "Manage cookies" now expands the preferences panel to full width instead of squeezing it beside the notice text
+
+---
+
 ## [3.0.0] - 2026/08/11
 
 ### Added

@@ -16,6 +16,8 @@ Lightweight cookie consent banner with Google Consent Mode v2, GTM integration, 
 - [Configuration reference](#configuration-reference)
   - [Layout](#layout)
   - [Position](#position)
+  - [`disablePageInteraction`](#disablepageinteraction)
+  - [`hideFromBots`](#hidefrombots)
   - [Colors](#colors)
   - [Text & locale](#text--locale)
 - [Cookie categories](#cookie-categories)
@@ -159,6 +161,7 @@ CookieConsent.config({
   layout: 'cloud',
   position: 'bottom right',
   disablePageInteraction: false,
+  hideFromBots: true,
 });
 ```
 
@@ -186,8 +189,8 @@ Controls the shape and structure of the banner. Set via `layout`.
 
 | Value | Description |
 |---|---|
-| `'box'` | Narrow box (max 480 px), buttons stacked vertically |
-| `'box wide'` | Wide box (max 800 px), buttons in a row — **default** |
+| `'box'` | Narrow box (max 400 px), buttons stacked vertically — **default** |
+| `'box wide'` | Wide box (max 800 px), buttons in a row |
 | `'cloud'` | Wide card with rounded corners; text left, buttons right |
 | `'bar'` | Full-width horizontal strip pinned to top or bottom |
 
@@ -200,8 +203,8 @@ Controls where the banner appears on screen. Set via `position` as `'<vertical> 
 | Vertical | Horizontal | Example |
 |---|---|---|
 | `top` | `left` / `center` / `right` | `'top left'` |
-| `middle` | `left` / `center` / `right` | `'middle center'` *(default)* |
-| `bottom` | `left` / `center` / `right` | `'bottom right'` |
+| `middle` | `left` / `center` / `right` | `'middle center'` |
+| `bottom` | `left` / `center` / `right` | `'bottom right'` *(default)* |
 
 For `bar` layouts only the vertical component is used (the bar always spans full width). A `bottom` bar has a shadow pointing upward; a `top` bar has a shadow pointing downward.
 
@@ -219,6 +222,20 @@ CookieConsent.config({
 
 > **Breaking change from v2:** page scroll is **not** locked by default since v3.0.0. If your integration relied on the implicit scroll-lock, set `disablePageInteraction: true`.
 
+### `hideFromBots`
+
+Type: `boolean` — Default: `true`
+
+Stops the plugin's execution when a bot/crawler is detected, to prevent them from indexing the modal's content. Detection uses the user agent (`bot`, `crawl`, `spider`, `slurp`, `teoma`) and `navigator.webdriver`.
+
+Set to `false` if you need the banner to render in automated browsers (Playwright, Cypress, Selenium).
+
+```js
+CookieConsent.config({
+  hideFromBots: false,
+});
+```
+
 ### Colors
 
 All color values accept any valid CSS color string.
@@ -232,11 +249,11 @@ CookieConsent.config({
     modalBackground: 'white',
     modalBorder: 'white',
     btnPrimaryText: 'white',
-    btnPrimaryBackground: '#059669',
-    btnPrimaryBorder: '#059669',
-    btnSecondaryText: '#6B7280',
-    btnSecondaryBackground: 'white',
-    btnSecondaryBorder: '#D1D5DB',
+    btnPrimaryBackground: '#30363c',
+    btnPrimaryBorder: '#30363c',
+    btnSecondaryText: '#2c2f31',
+    btnSecondaryBackground: '#eaeff2',
+    btnSecondaryBorder: '#eaeff2',
     switchColor: 'green',
     switchBackground: '#D1D5DB',
     switchActiveBackground: '#059669',
@@ -251,12 +268,12 @@ CookieConsent.config({
 | `linkColor` | `black` | Links in notice text |
 | `modalBackground` | `white` | Banner background |
 | `modalBorder` | `white` | Banner border |
-| `btnPrimaryText` | `white` | Accept all / Accept selected button text |
-| `btnPrimaryBackground` | `#059669` | Accept all / Accept selected button background |
-| `btnPrimaryBorder` | `#059669` | Accept all / Accept selected button border |
-| `btnSecondaryText` | `#6B7280` | Manage / Reject all button text |
-| `btnSecondaryBackground` | `white` | Manage / Reject all button background |
-| `btnSecondaryBorder` | `#D1D5DB` | Manage / Reject all button border |
+| `btnPrimaryText` | `white` | Accept all / Reject all / Accept selected button text |
+| `btnPrimaryBackground` | `#30363c` | Accept all / Reject all / Accept selected button background |
+| `btnPrimaryBorder` | `#30363c` | Accept all / Reject all / Accept selected button border |
+| `btnSecondaryText` | `#2c2f31` | Manage cookies button text |
+| `btnSecondaryBackground` | `#eaeff2` | Manage cookies button background |
+| `btnSecondaryBorder` | `#eaeff2` | Manage cookies button border |
 | `switchColor` | `green` | Toggle switch colour |
 | `switchBackground` | `#D1D5DB` | Toggle switch track (off) |
 | `switchActiveBackground` | `#059669` | Toggle switch track (on) |
@@ -329,6 +346,7 @@ CookieConsent.config({
   layout: 'cloud',
   position: 'bottom right',
   disablePageInteraction: false,
+  hideFromBots: true,
 
   color: {
     btnPrimaryBackground: '#1d4ed8',
