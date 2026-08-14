@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.1] - 2026/08/14
+
+### Added
+
+- Live playground link at the top of the README: https://cookie-consent-playground.netlify.app/
+
+### Changed
+
+- Banner notice text in `en`, `ca`, `de`, `fr`, `it`, `nl` and `pt` now matches the shorter Spanish copy (no implied consent by browsing)
+
+### Fixed
+
+- Closing the banner with `disablePageInteraction` now clears the inline `overflow: hidden` instead of forcing `overflow: visible`
+
+---
+
 ## [3.1.0] - 2026/08/13
 
 ### Added

@@ -130,7 +130,7 @@ import locales from './locales.js'
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
 				if (this.options.disablePageInteraction) {
-					this.overflowbody = win.getComputedStyle(document.body, null).getPropertyValue("overflow");
+					this.overflowbody = document.body.style.overflow;
 					document.body.style.overflow = "hidden";
 				}
 			}
@@ -141,9 +141,9 @@ import locales from './locales.js'
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (popup) {
 				popup.remove();
-				if (this.overflowbody) {
+				if (this.options.disablePageInteraction) {
 					document.body.style.overflow = this.overflowbody;
-					this.overflowbody = null;
+					this.overflowbody = '';
 				}
 			}
 		}
