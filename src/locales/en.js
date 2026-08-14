@@ -1,6 +1,6 @@
 export default {
 	modalTitle: "We use cookies",
-	noticeText: "We use cookies and other tracking technologies to improve your browsing experience on our website, to show you personalized content and targeted ads, to analyze our website traffic, and to understand where our visitors are coming from. By browsing our website, you consent to our use of cookies and other tracking technologies. To get more information about these cookies, how and why we use them and how you can change your settings, check our <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Cookie Policy</a>.", // {{cookiesPolicyLink}}
+	noticeText: "We use cookies and other technologies to improve your experience, personalize content and analyze traffic on our website and to understand where our visitors come from. See our <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Cookie Policy</a> for more information and to manage your preferences.", // {{cookiesPolicyLink}}
 	btnAcceptAll: "Accept all cookies",
   btnRejectAll: "Reject all cookies",
 	btnManageCookies: "Manage cookies",

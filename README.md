@@ -2,6 +2,8 @@
 
 Lightweight cookie consent banner with Google Consent Mode v2, GTM integration, multiple layouts and full i18n support.
 
+**[Open the live playground](https://cookie-consent-playground.netlify.app/)** — try layouts, positions, colors and locales in the browser.
+
 ---
 
 ## Table of contents

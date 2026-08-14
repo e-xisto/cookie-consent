@@ -1,6 +1,6 @@
 export default {
 	modalTitle: "O nosso site usa cookies",
-	noticeText: "Utilizamos cookies e outras tecnologias de medição para melhorar a sua experiência de navegação no nosso site, de forma a mostrar conteúdo personalizado, anúncios direcionados, analisar o tráfego do site e entender de onde vêm os visitantes. Ao navegar em nosso site, você concorda com o uso de cookies e outras tecnologias de rastreamento. Para obter mais informações sobre esses cookies, como e por que os usamos e como você pode alterar suas configurações, consulte nossa <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Política de Cookies</a>", // {{cookiesPolicyLink}}
+	noticeText: "Utilizamos cookies e outras tecnologias para melhorar a sua experiência, personalizar conteúdos e analisar o tráfego no nosso site e para compreender de onde vêm os nossos visitantes. Consulte a nossa <a href=\"{{cookiesPolicyLink}}\" target=\"_blank\">Política de Cookies</a> para mais informações e gerir as suas preferências.", // {{cookiesPolicyLink}}
 	btnAcceptAll: "Aceita todos os cookies",
   btnRejectAll: "Rejeitar todos os cookies",
 	btnManageCookies: "Gerenciar cookies",
