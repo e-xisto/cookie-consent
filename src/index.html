@@ -404,6 +404,13 @@
       flex-shrink: 0;
     }
 
+    .pg-check-hint {
+      margin: -4px 0 0 22px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #9ca3af;
+    }
+
     .pg-position-label {
       margin: 8px 0 8px;
       text-align: center;
@@ -463,13 +470,19 @@
     <div>
       <p class="pg-section-title">Position</p>
       <div class="pg-position-grid" id="position-grid"></div>
-      <p class="pg-position-label" id="position-label">middle center</p>
+      <p class="pg-position-label" id="position-label">bottom right</p>
     </div>
 
     <label class="pg-check-label">
       <input type="checkbox" id="disable-page-interaction">
       disablePageInteraction
     </label>
+
+    <label class="pg-check-label">
+      <input type="checkbox" id="hide-from-bots">
+      hideFromBots
+    </label>
+    <p class="pg-check-hint">Si detecta un bot/crawler, no muestra el modal (activo por defecto).</p>
 
     <details class="pg-details pg-details-colors">
       <summary>
@@ -510,11 +523,11 @@
     modalBackground: '#ffffff',
     modalBorder: '#ffffff',
     btnPrimaryText: '#ffffff',
-    btnPrimaryBackground: '#059669',
-    btnPrimaryBorder: '#059669',
-    btnSecondaryText: '#6B7280',
-    btnSecondaryBackground: '#ffffff',
-    btnSecondaryBorder: '#D1D5DB',
+    btnPrimaryBackground: '#30363c',
+    btnPrimaryBorder: '#30363c',
+    btnSecondaryText: '#2c2f31',
+    btnSecondaryBackground: '#eaeff2',
+    btnSecondaryBorder: '#eaeff2',
     switchColor: '#008000',
     switchBackground: '#D1D5DB',
     switchActiveBackground: '#059669',
@@ -523,11 +536,12 @@
   // ── State ─────────────────────────────────────────────────────────────────
   var state = {
     locale: 'es',
-    layout: 'box wide',
-    position: 'middle center',
+    layout: 'box',
+    position: 'bottom right',
     cookiesPolicyLink: '#',
     color: Object.assign({}, DEFAULT_COLORS),
     disablePageInteraction: false,
+    hideFromBots: true,
   };
 
   var locales = [
@@ -581,6 +595,7 @@
       position: state.position,
       cookiesPolicyLink: state.cookiesPolicyLink,
       disablePageInteraction: state.disablePageInteraction,
+      hideFromBots: state.hideFromBots,
       color: Object.assign({}, state.color),
     };
   }
@@ -618,6 +633,14 @@
   disablePageInteractionCheckbox.checked = state.disablePageInteraction;
   disablePageInteractionCheckbox.onchange = function() {
     state.disablePageInteraction = disablePageInteractionCheckbox.checked;
+    refresh();
+  };
+
+  // ── hideFromBots ──────────────────────────────────────────────────────────
+  var hideFromBotsCheckbox = document.getElementById('hide-from-bots');
+  hideFromBotsCheckbox.checked = state.hideFromBots;
+  hideFromBotsCheckbox.onchange = function() {
+    state.hideFromBots = hideFromBotsCheckbox.checked;
     refresh();
   };
 

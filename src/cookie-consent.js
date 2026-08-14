@@ -44,20 +44,21 @@ import locales from './locales.js'
 				modalBackground: "white",
 				modalBorder: "white",
 				btnPrimaryText: "white",
-				btnPrimaryBackground: "#059669",
-				btnPrimaryBorder: "#059669",
-				btnSecondaryText: "#6B7280",
-				btnSecondaryBackground: "white",
-				btnSecondaryBorder: "#D1D5DB",
+				btnPrimaryBackground: "#30363c",
+				btnPrimaryBorder: "#30363c",
+				btnSecondaryText: "#2c2f31",
+				btnSecondaryBackground: "#eaeff2",
+				btnSecondaryBorder: "#eaeff2",
 				switchColor: "green",
 				switchBackground: "#D1D5DB",
 				switchActiveBackground: "#059669"
 			},
 			cookiesPolicyLink: "",
 			locale: defaultLocale,
-			layout: 'box wide',
-			position: 'middle center',
+			layout: 'box',
+			position: 'bottom right',
 			disablePageInteraction: false,
+			hideFromBots: true,
 		};
 
 		manageCookiesShown = false;
@@ -80,8 +81,15 @@ import locales from './locales.js'
 			};
 		}
 
+		isBotDetected() {
+			const nav = win.navigator;
+			if (!nav) return false;
+			return (nav.userAgent && /bot|crawl|spider|slurp|teoma/i.test(nav.userAgent)) || !!nav.webdriver;
+		}
+
 		config(options) {
 			this.setOptions(options);
+			if (this.options.hideFromBots && this.isBotDetected()) return;
 			if (!win.localStorage.getItem('cookie_consent')) {
 				this.initCookies();
 				if (document.readyState !== 'loading') {
@@ -113,9 +121,11 @@ import locales from './locales.js'
 			if (options.layout !== undefined) this.options.layout = options.layout;
 			if (options.position !== undefined) this.options.position = options.position;
 			if (options.disablePageInteraction !== undefined) this.options.disablePageInteraction = options.disablePageInteraction;
+			if (options.hideFromBots !== undefined) this.options.hideFromBots = options.hideFromBots;
 		}
 
 		openPopup() {
+			if (this.options.hideFromBots && this.isBotDetected()) return;
 			let popup = document.getElementById('cookie-popup-cookies');
 			if (!popup) {
 				document.body.insertAdjacentHTML('beforeend', this.render());
@@ -333,8 +343,8 @@ import locales from './locales.js'
 		}
 
 		getPositionStyle() {
-			const pos = (this.options.position || 'middle center').toLowerCase();
-			const layout = (this.options.layout || 'box wide').toLowerCase();
+			const pos = (this.options.position || 'bottom right').toLowerCase();
+			const layout = (this.options.layout || 'box').toLowerCase();
 
 			if (layout.startsWith('bar')) {
 				const vert = pos.split(' ')[0];
@@ -344,8 +354,8 @@ import locales from './locales.js'
 			}
 
 			const parts = pos.split(' ');
-			const vert = parts[0] || 'middle';
-			const horiz = parts[1] || 'center';
+			const vert = parts[0] || 'bottom';
+			const horiz = parts[1] || 'right';
 			const transforms = [];
 			let css = '';
 
@@ -364,8 +374,8 @@ import locales from './locales.js'
 
 		render() {
 			var options = this.options;
-			const layout = (options.layout || 'box wide').toLowerCase();
-			const posVert = (options.position || 'middle center').split(' ')[0];
+			const layout = (options.layout || 'box').toLowerCase();
+			const posVert = (options.position || 'bottom right').split(' ')[0];
 			const positionStyle = this.getPositionStyle();
 			const barShadow = posVert === 'bottom'
 				? '0 -4px 12px rgba(0,0,0,0.1)'
@@ -394,7 +404,7 @@ import locales from './locales.js'
 					transform: translate(-50%, -50%) !important;
 				}
 
-				.cookie-consent[data-layout="box"]              { max-width: 480px; }
+				.cookie-consent[data-layout="box"]              { max-width: 400px; }
 				.cookie-consent[data-layout="box"].cc-expanded   { max-width: 700px; }
 				.cookie-consent[data-layout="cloud"]             { max-width: 880px; }
 				.cookie-consent[data-layout="cloud"].cc-expanded { max-width: 880px; }
@@ -440,6 +450,28 @@ import locales from './locales.js'
 
 				.cookie-consent[data-layout="cloud"] .cookie-consent-btn-manage {
 					margin-right: 0;
+				}
+
+				.cookie-consent[data-layout="cloud"].cc-expanded .cookie-consent-intro {
+					flex-direction: column;
+					align-items: stretch;
+				}
+
+				.cookie-consent[data-layout="cloud"] #cookie-manage-cookies {
+					width: 100%;
+					min-width: 0;
+				}
+
+				.cookie-consent[data-layout="cloud"] #cookie-manage-cookies .cookie-consent-btn {
+					flex-direction: row;
+					justify-content: flex-start;
+					align-items: center;
+					width: 100%;
+					padding-top: 15px;
+				}
+
+				.cookie-consent[data-layout="cloud"] #cookie-manage-cookies .cookie-consent-btn button {
+					width: auto;
 				}
 
 				.cookie-consent[data-layout="bar"] .cookie-consent-modal {
@@ -514,12 +546,13 @@ import locales from './locales.js'
 					gap: 8px;
 				}
 
-				/* box wide: mantener el mismo gap horizontal que bar */
+				/* box wide: aceptar + rechazar a la izquierda, gestionar a la derecha */
 				.cookie-consent[data-layout="box wide"] #cookie-consent-btn {
 					display: flex;
 					flex-direction: row;
 					gap: 10px;
-					justify-content: flex-end;
+					justify-content: flex-start;
+					width: 100%;
 				}
 
 				.cookie-consent[data-layout="box wide"] .cookie-consent-btn {
@@ -527,6 +560,12 @@ import locales from './locales.js'
 				}
 
 				.cookie-consent[data-layout="box wide"] .cookie-consent-btn-manage {
+					margin-right: 0;
+				}
+
+				.cookie-consent[data-layout="box wide"] #btn-cookie-manage-cookies,
+				.cookie-consent[data-layout="bar"] #btn-cookie-manage-cookies {
+					margin-left: auto;
 					margin-right: 0;
 				}
 
@@ -561,15 +600,36 @@ import locales from './locales.js'
 				.cookie-consent-btn button {
 					padding: 10px 30px;
 					font-size: 14px;
+					font-weight: 700;
 					border-radius: 4px;
 					cursor: pointer;
 				}
 
 				.cookie-consent-btn button:focus { outline: none !important }
+				#btn-cookie-accept-all { order: 1; }
+				#btn-cookie-reject-all { order: 2; }
+				#btn-cookie-manage-cookies { order: 3; }
+				#btn-cookie-accept-selection { order: 1; }
+				#btn-cookie-accept-all-config { order: 2; }
+
+				#cookie-manage-cookies .cookie-consent-btn {
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					justify-content: flex-start;
+					align-items: center;
+					gap: 10px;
+					width: 100%;
+				}
+
+				#cookie-manage-cookies .cookie-consent-btn button {
+					width: auto;
+					margin-right: 0;
+					margin-bottom: 0;
+				}
 				.cookie-consent-btn-manage { margin-right: 20px; }
 				.cookie-consent[data-layout="bar"] .cookie-consent-btn-manage { margin-right: 0; }
 				.cookie-consent[data-layout="box"] .cookie-consent-btn-manage { margin-right: 0; }
-				.cookie-consent-btn-accept { text-transform: uppercase; }
 
 				.cookie-consent-options-item {
 					border: 1px solid #e5e7eb;
@@ -723,10 +783,16 @@ import locales from './locales.js'
 					}
 
 					.cookie-consent[data-layout="box"] .cookie-consent-btn,
-					.cookie-consent[data-layout="box wide"] .cookie-consent-btn {
+					.cookie-consent[data-layout="box wide"] .cookie-consent-btn,
+					.cookie-consent[data-layout="box wide"] #cookie-consent-btn {
 						flex-direction: column;
 						justify-content: flex-start;
 						gap: 8px;
+					}
+
+					.cookie-consent[data-layout="box wide"] #btn-cookie-manage-cookies,
+					.cookie-consent[data-layout="bar"] #btn-cookie-manage-cookies {
+						margin-left: 0;
 					}
 
 					/* When stacking buttons with gap, don't add extra spacing per-button */
@@ -765,6 +831,15 @@ import locales from './locales.js'
 
 					.cookie-consent-btn button { width: 100% }
 
+					#cookie-manage-cookies .cookie-consent-btn {
+						flex-direction: row;
+						justify-content: flex-start;
+					}
+
+					#cookie-manage-cookies .cookie-consent-btn button {
+						width: auto;
+					}
+
 					.cookie-consent-btn-manage {
 						margin-bottom: 10px;
 						margin-right: 0;
@@ -785,9 +860,9 @@ import locales from './locales.js'
 								<p>${this.replace(options.text.noticeText, {cookiesPolicyLink: options.cookiesPolicyLink})}</p>
 							</div>
 							<div class="cookie-consent-btn" id="cookie-consent-btn">
-								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
-								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-reject-all" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.rejectAll()">${options.text.btnRejectAll}</button>
 								<button type="button" class="cookie-consent-btn-accept" id="btn-cookie-accept-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
+								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-reject-all" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder}" onclick="CookieConsent.rejectAll()">${options.text.btnRejectAll}</button>
+								<button type="button" class="cookie-consent-btn-manage" id="btn-cookie-manage-cookies" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder}" onclick="CookieConsent.manageCookies()">${options.text.btnManageCookies}</button>
 							</div>
 							<div id="cookie-manage-cookies" style="display: none;">
 								<div class="cookie-consent-cookie-consent-manage">
@@ -860,7 +935,7 @@ import locales from './locales.js'
 										</div>
 									</div>
 									<div class="cookie-consent-btn">
-										<button class="cookie-consent-btn-manage" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnSecondaryText}; background-color: ${options.color.btnSecondaryBackground}; border: 1px solid ${options.color.btnSecondaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
+										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-selection" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptSelection()">${options.text.btnAcceptSelection}</button>
 										<button class="cookie-consent-btn-accept" type="button" id="btn-cookie-accept-all-config" style="color: ${options.color.btnPrimaryText}; background-color: ${options.color.btnPrimaryBackground}; border: 1px solid ${options.color.btnPrimaryBorder};" onclick="CookieConsent.acceptAll()">${options.text.btnAcceptAll}</button>
 									</div>
 								</div>
